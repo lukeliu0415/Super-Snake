@@ -26,27 +26,38 @@ public class SnakeHead extends Actor
      */
     public void act() 
     {
-        move();
+        snakeMove();
         if(isTouching(Food.class)) {
             removeTouching(Food.class); 
             // Appending 1 tail to the snake's body (10 frames = 1 tail)
             SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 10);
+
             currentWorld = (SnakeWorld)getWorld();
             currentWorld.addFood();
-            System.out.println("1 life added");
         }
     } 
 
     /**
+     * Stops the game when the snake intersecting with another class object 
+     */
+    private void isColliding(Class classIn) {
+        if(this.isTouching(classIn)) {
+            Greenfoot.stop();
+        }
+    }
+
+    /**
      * Every 10 executions of the act() method, move once
      */
-    private void move() {
+    private void snakeMove() {
         framesElapsed++;
         if(framesElapsed == FRAMES_TO_LAST) {
             getWorld().addObject(new SnakeTail(), getX(), getY());
             move(1);
             framesElapsed = 0;
         }
+
+        isColliding(SnakeTail.class); 
 
         if(Greenfoot.isKeyDown("right")) {
             setRotation(0);
