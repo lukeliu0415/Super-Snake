@@ -29,6 +29,14 @@ public class SnakeTail extends Actor
     }
 
     /**
+     * Resets the game
+     */
+    public static void reset(World currentWorld) {
+        lifeCycle = 25;
+        currentWorld.removeObjects(currentWorld.getObjects(SnakeTail.class));
+    }
+    
+    /**
      * Act - do whatever the SnakeTail wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */

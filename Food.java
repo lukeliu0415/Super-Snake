@@ -11,7 +11,7 @@ public class Food extends Actor
     
     public Food() {
         GreenfootImage food = getImage();
-        food.scale(25, 30);
+        food.scale(20, 20);
         setImage(food);
     }
     
