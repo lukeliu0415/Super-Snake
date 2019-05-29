@@ -31,6 +31,26 @@ public class SnakeWorld extends World
     }
     
     /**
+     * Getter method for the game frames
+     * 
+     * @return the number of frames that have elapsed since the
+     * beginning of the game
+     */
+    public int getGameFrames() {
+        return gameTime;
+    }
+    
+    /**
+     * Getter method for the game's seconds 
+     * 
+     * @return the number of seconds that have elapsed since the
+     * beginning of the game
+     */
+    public int getGameTime() {
+        return gameTime / 60;
+    }
+    
+    /**
      * Getter method for the score
      * 
      * @return the user's score (# of coins collected)
