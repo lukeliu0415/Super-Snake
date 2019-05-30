@@ -8,7 +8,6 @@ import java.time.*;
  */
 public class Timer extends Actor
 {
-    private int gameTime;
     
     LocalTime timer = LocalTime.MIDNIGHT; // Creating an object of type LocalTime which will store the number of HH/MM/SS Passed since
     GreenfootImage textImage;
@@ -23,9 +22,7 @@ public class Timer extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() 
-    {
-        gameTime++;
-        
+    {       
         if(((SnakeWorld) getWorld()).getGameFrames() % 60 == 0) {
             timer = timer.plusSeconds(1);
             textImage = new GreenfootImage("Timer: " + timer, 30, Color.BLACK, Color.WHITE);
