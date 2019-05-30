@@ -19,7 +19,6 @@ public class StartButton extends Button
     }
     public void startSlideOff(){
         sliding = true;
-        
     }
     /**
      * Act - do whatever the StartButton wants to do. This method is called whenever
@@ -31,7 +30,9 @@ public class StartButton extends Button
             this.setLocation(this.getX() + 1, this.getY());
         }
         if (Greenfoot.mouseClicked(this)) {
+            //this.getWorld().changeGameState("run");
             this.removeButton();
+            
         }
     }    
 }

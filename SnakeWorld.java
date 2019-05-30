@@ -10,7 +10,8 @@ public class SnakeWorld extends World
 {
     private int gameTime;
     private int score = 0;
-    
+    private String gameState = "start";
+    private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     /**
      * Constructor for objects of class SnakeWorld.
      * 
@@ -18,10 +19,13 @@ public class SnakeWorld extends World
     public SnakeWorld()
     {    
         super(35, 30, 20); 
+        /*title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        setBackground(title);
+        StartButton start = new StartButton();//adds the start button
+        addObject(start,17,15);*/
         GreenfootImage img = new GreenfootImage(20, 20);
         img.drawRect(0, 0, 20, 20);
         setBackground(img);
-        
         addObject(new SnakeHead(), genCoordinates()[0],
         genCoordinates()[1]);
 
@@ -38,6 +42,12 @@ public class SnakeWorld extends World
      */
     public int getGameFrames() {
         return gameTime;
+    }
+    public String getGameState(){
+     return gameState;   
+    }
+    public void changeGameState(String gameStateSet){
+        gameState = gameStateSet;
     }
     
     /**
@@ -97,6 +107,12 @@ public class SnakeWorld extends World
      */
     public void started() {
         SnakeTail.reset((SnakeWorld)this);
+    }
+    public void startWorld(){//this method is supposed to create the grid world after the startbutton is pressed
+        GreenfootImage img = new GreenfootImage(20, 20);
+        img.drawRect(0, 0, 20, 20);
+        setBackground(img);
+        changeGameState("run");
     }
     
     /**

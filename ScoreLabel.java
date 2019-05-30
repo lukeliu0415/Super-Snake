@@ -16,7 +16,7 @@ public class ScoreLabel extends Label
     }
     public void addScore(int add){
      score = score + add;
-     
+     updateImage();
     }
     /**
      * Act - do whatever the ScoreLabel wants to do. This method is called whenever
