@@ -31,6 +31,9 @@ public class SnakeWorld extends World
 
         addFood();
         addObject(new Score(), 26, 1);
+        
+        // Adding a timer object to the world
+        addObject(new Timer(), 4, 100);
 
     }
     
