@@ -8,9 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class SnakeWorld extends World
 {
+    private boolean debug;
     private int gameTime;
     private int score = 0;
-    private String gameState = "start";
+    private String gameState = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     /**
      * Constructor for objects of class SnakeWorld.
@@ -19,21 +20,19 @@ public class SnakeWorld extends World
     public SnakeWorld()
     {    
         super(35, 30, 20); 
-        /*title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
         setBackground(title);
         StartButton start = new StartButton();//adds the start button
-        addObject(start,17,15);*/
-        GreenfootImage img = new GreenfootImage(20, 20);
+        addObject(start,17,15);
+        /**/
+        /*GreenfootImage img = new GreenfootImage(20, 20);
         img.drawRect(0, 0, 20, 20);
         setBackground(img);
         addObject(new SnakeHead(), genCoordinates()[0],
         genCoordinates()[1]);
 
         addFood();
-        addObject(new Score(), 26, 1);
-        
-        // Adding a timer object to the world
-        addObject(new Timer(), 4, 100);
+        addObject(new Score(), 26, 1);*/
 
     }
     
@@ -115,7 +114,12 @@ public class SnakeWorld extends World
         GreenfootImage img = new GreenfootImage(20, 20);
         img.drawRect(0, 0, 20, 20);
         setBackground(img);
-        changeGameState("run");
+        addObject(new SnakeHead(), genCoordinates()[0],
+        genCoordinates()[1]);
+
+        addFood();
+        addObject(new Score(), 26, 1);
+
     }
     
     /**
@@ -123,6 +127,29 @@ public class SnakeWorld extends World
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        /*code for clicking the button to change the gameState*/ 
+        MouseInfo mouse = Greenfoot.getMouseInfo();//code to check for interactions with the start button
+        if (mouse!= null) {//checks if mouse is interacting with anything or something is happening w/ the mouse
+            Actor currentActor = mouse.getActor();
+            if (currentActor !=null){//checks if an actor is being interacted w/ or not
+                if (currentActor.getClass() == StartButton.class){//checks if the actor is a start button
+                    StartButton currentButton = (StartButton)currentActor;//converts the actor into a button
+                    int mouseButtonPressed = mouse.getButton();
+                    int mouseClickCount = mouse.getClickCount();
+                    if(debug){System.out.println(mouseButtonPressed +"/"+mouseClickCount);}
+                    
+                    if (mouseClickCount == 1) {
+                     changeGameState("begin");
+                     startWorld();
+                     if(debug){System.out.println("world should be set up");}
+                     currentButton.removeButton();
+                     //removeObject(getObjectsAt(300,100,Label.class));
+                    }
+                    
+                }
+            }
+        }
+        
         gameTime++;
         
         if (gameTime % 1200 == 0) {
