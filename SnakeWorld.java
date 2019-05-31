@@ -10,7 +10,7 @@ public class SnakeWorld extends World
 {
     private boolean debug;
     private int gameTime;
-    private int score = 0;
+    private int score;
     private String gameState = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     /**
@@ -19,20 +19,14 @@ public class SnakeWorld extends World
      */
     public SnakeWorld()
     {    
-        super(35, 30, 20); 
-        title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
-        setBackground(title);
-        StartButton start = new StartButton();//adds the start button
-        addObject(start,17,15);
-        /**/
-        /*GreenfootImage img = new GreenfootImage(20, 20);
-        img.drawRect(0, 0, 20, 20);
-        setBackground(img);
-        addObject(new SnakeHead(), genCoordinates()[0],
-        genCoordinates()[1]);
-
-        addFood();
-        addObject(new Score(), 26, 1);*/
+        super(30, 30, 20); 
+        //title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        //setBackground(title);
+        //StartButton start = new StartButton();//adds the start button
+        //addObject(start,17,15);
+        
+        
+        startWorld();
 
     }
     
@@ -111,6 +105,7 @@ public class SnakeWorld extends World
         SnakeTail.reset((SnakeWorld)this);
     }
     public void startWorld(){//this method is supposed to create the grid world after the startbutton is pressed
+        
         GreenfootImage img = new GreenfootImage(20, 20);
         img.drawRect(0, 0, 20, 20);
         setBackground(img);

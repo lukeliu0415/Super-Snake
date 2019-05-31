@@ -20,8 +20,14 @@ public class Score extends Actor
      */
     public void act() 
     {
+        SnakeWorld currentWorld = (SnakeWorld) getWorld();
+        int nowScore = currentWorld.getScore();
         //Update and display the current score
         GreenfootImage textImage = new GreenfootImage("Score: " + ((SnakeWorld) getWorld()).getScore(), 30, Color.BLACK, Color.WHITE);
         setImage(textImage);
+        
+        if (nowScore == 10) {
+            Greenfoot.setWorld( new Level1());
+        }
     }    
 }

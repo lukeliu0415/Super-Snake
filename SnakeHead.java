@@ -57,6 +57,7 @@ public class SnakeHead extends Actor
             
             currentWorld = (SnakeWorld)getWorld();
             currentWorld.addFood();
+            
         }
     }
     
