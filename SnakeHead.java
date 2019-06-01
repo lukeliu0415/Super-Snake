@@ -9,8 +9,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class SnakeHead extends Actor
 {
     // Instance Variables
-    private final int FRAMES_TO_LAST;
+    private int headState;
+    private String directory;
     private int framesElapsed = 0;
+    private final int FRAMES_TO_LAST;
+    private GreenfootImage head;
     SnakeWorld currentWorld;
 
     public SnakeHead() {
