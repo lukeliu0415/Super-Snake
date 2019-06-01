@@ -119,6 +119,7 @@ public class SnakeWorld extends World
 
         while(!addFood());
         addObject(new ScoreLabel(), 26, 1);
+        addObject(new Timer(), 16, 1);
 
     }
     

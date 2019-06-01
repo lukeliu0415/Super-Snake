@@ -6,15 +6,14 @@ import java.time.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Timer extends Actor
+public class Timer extends Label
 {
     
-    LocalTime timer = LocalTime.MIDNIGHT; // Creating an object of type LocalTime which will store the number of HH/MM/SS Passed since
-    GreenfootImage textImage;
+    LocalTime timer = LocalTime.MIDNIGHT;
+    // Creating an object of type LocalTime which will store the number of HH/MM/SS Passed since
     
     public Timer() {
-        textImage = new GreenfootImage("Timer: 00:00:00", 30, Color.BLACK, Color.WHITE);
-        setImage(textImage);
+        super("Timer: 00:00:00", 30);
     }
 
     /**
@@ -25,9 +24,7 @@ public class Timer extends Actor
     {       
         if(((SnakeWorld) getWorld()).getGameFrames() % 60 == 0) {
             timer = timer.plusSeconds(1);
-            textImage = new GreenfootImage("Timer: " + timer, 30, Color.BLACK, Color.WHITE);
-            setImage(textImage);
+            setText("Timer: " + timer);
         }
-        
     }    
 }

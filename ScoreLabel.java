@@ -8,13 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class ScoreLabel extends Label
 {
-    private int score;
     
     public ScoreLabel(){//constructor for Score labels
         super("Score: 0", 30);
-        score = 0;
     }
-    
     
     /**
      * Act - do whatever the ScoreLabel wants to do. This method is called whenever
