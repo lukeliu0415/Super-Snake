@@ -86,9 +86,20 @@ public class SnakeWorld extends World
         return false;
     }
 
-    public void addFood() {
-        addObject(new Food(), genCoordinates()[0],
-        genCoordinates()[1]);
+    public boolean addFood() {
+        //Get random x and y coordinates to place the food
+        int randX = genCoordinates()[0];
+        int randY = genCoordinates()[1];
+
+        //Place the food if the desired location does not contain any other objects
+        if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
+            //Add the food into the game
+            Food tempFood  = new Food();
+            addObject(tempFood, randX, randY);
+            
+            return true;
+        }
+        return false;
     }
     
     public int[] genCoordinates() {
@@ -112,8 +123,8 @@ public class SnakeWorld extends World
         addObject(new SnakeHead(), genCoordinates()[0],
         genCoordinates()[1]);
 
-        addFood();
-        addObject(new Score(), 26, 1);
+        while(!addFood());
+        addObject(new ScoreLabel(), 26, 1);
 
     }
     
@@ -148,8 +159,8 @@ public class SnakeWorld extends World
         gameTime++;
         
         if (gameTime % 1200 == 0) {
-            while (!addPylon()) {
-            } //Repeat until successfully placed
+            while (!addPylon());
+             //Repeat until successfully placed
         }
     }
 }

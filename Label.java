@@ -22,7 +22,7 @@ public class Label extends Actor
         textColor = Color.BLACK;
         bkColor = new Color(0,0,0,0);//transparent background
         
-        GreenfootImage label = new GreenfootImage(text,fontSize, textColor, bkColor);
+        GreenfootImage label = new GreenfootImage(text, fontSize, textColor, bkColor);
         
         updateImage();
     }

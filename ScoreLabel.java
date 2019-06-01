@@ -9,21 +9,27 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class ScoreLabel extends Label
 {
     private int score;
-    public ScoreLabel(String setScore,int fontSizeSet){//constructor for Scorelabels
-        super("0",30);
+    
+    public ScoreLabel(){//constructor for Score labels
+        super("Score: 0", 30);
         score = 0;
-        
     }
-    public void addScore(int add){
-     score = score + add;
-     updateImage();
-    }
+    
+    
     /**
      * Act - do whatever the ScoreLabel wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() 
     {
-        // Add your action code here.
-    }    
+        SnakeWorld currentWorld = (SnakeWorld) getWorld();
+        int nowScore = currentWorld.getScore();
+        
+        //Update and display the current score
+        setText("Score: " + currentWorld.getScore());
+        
+        if (nowScore == 10) {
+            Greenfoot.setWorld( new Level1());
+        }
+    } 
 }
