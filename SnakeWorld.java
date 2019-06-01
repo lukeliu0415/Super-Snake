@@ -19,7 +19,7 @@ public class SnakeWorld extends World
      */
     public SnakeWorld()
     {    
-        super(30, 30, 20); 
+        super(30, 30, 20, false); 
         //title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
         //setBackground(title);
         //StartButton start = new StartButton();//adds the start button
@@ -109,12 +109,6 @@ public class SnakeWorld extends World
         return coordinates;
     }
     
-    /**
-     * Resets the game is reset
-     */
-    public void started() {
-        SnakeTail.reset((SnakeWorld)this);
-    }
     public void startWorld(){//this method is supposed to create the grid world after the startbutton is pressed
         
         GreenfootImage img = new GreenfootImage(20, 20);

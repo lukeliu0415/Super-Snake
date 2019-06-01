@@ -66,34 +66,20 @@ public class SnakeHead extends Actor
      * parallel side
      */
     private void toTeleport() {
-        System.out.println(getWorld().getWidth());
         // Checking if the object has reached one of the sides of the screen and moving it to the other side
-        if(this.getX() == getWorld().getWidth() - 1 && this.getRotation() == 0) {
-            Greenfoot.delay(10);
-            collidingFood(10);
-            //getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
+        if(this.getX() == getWorld().getWidth()) {
             this.setLocation(0, this.getY());
-            
 
             // facing LEFT
-        } else if(this.getX() == 0 && this.getRotation() == 180) {
-            Greenfoot.delay(10);
-            collidingFood(10);
-            //getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
-            this.setLocation(getWorld().getWidth(), this.getY());
+        } else if(this.getX() == -1) {
+            this.setLocation(getWorld().getWidth()-1, this.getY());
 
             // UP
-        } else if(this.getY() == 0 && this.getRotation() == 270) {
-            Greenfoot.delay(10);
-            collidingFood(10);
-            //getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
-            this.setLocation(this.getX(), getWorld().getHeight());
+        } else if(this.getY() == -1) {
+            this.setLocation(this.getX(), getWorld().getHeight()-1);
 
             // DOWN
-        } else if(this.getY() == getWorld().getHeight() - 1 && this.getRotation() == 90) {
-            Greenfoot.delay(10);
-            collidingFood(10);
-            //getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
+        } else if(this.getY() == getWorld().getHeight()) {
             this.setLocation(this.getX(), 0);
             
         }
