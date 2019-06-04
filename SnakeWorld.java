@@ -129,6 +129,12 @@ public class SnakeWorld extends World
 
     }
     
+    public void started() {
+        if (gameTime == 0) {
+            SnakeTail.reset(this);
+        }
+    }
+    
     /**
      * Act - do whatever the ParkingLot wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.

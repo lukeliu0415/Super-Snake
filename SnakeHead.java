@@ -70,7 +70,6 @@ public class SnakeHead extends Actor
      */
     private void moveTongue() {
         if(((SnakeWorld) getWorld()).getGameFrames() % 30 == 0) {
-            //System.out.println(((SnakeWorld) getWorld()).getGameTime());
             headState++;
 
             if(headState > 2) headState = 0;
