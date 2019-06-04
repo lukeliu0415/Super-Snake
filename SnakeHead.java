@@ -12,12 +12,12 @@ public class SnakeHead extends Actor
     private int headState;
     private String directory;
     private int framesElapsed = 0;
-    private final int FRAMES_TO_LAST;
+    private final int FRAMES_TO_LAST = 10;
     private GreenfootImage head;
     SnakeWorld currentWorld;
+    int lastRotation = 0;
 
     public SnakeHead() {
-        FRAMES_TO_LAST = 10;
         head = new GreenfootImage("snake-head_s01.png");
         head.scale(20, 20);
         setImage(head);
@@ -70,7 +70,7 @@ public class SnakeHead extends Actor
      */
     private void moveTongue() {
         if(((SnakeWorld) getWorld()).getGameFrames() % 30 == 0) {
-            System.out.println(((SnakeWorld) getWorld()).getGameTime());
+            //System.out.println(((SnakeWorld) getWorld()).getGameTime());
             headState++;
 
             if(headState > 2) headState = 0;
@@ -124,10 +124,14 @@ public class SnakeHead extends Actor
      */
     private void snakeMove() {
         framesElapsed++;
+        
         if(framesElapsed == FRAMES_TO_LAST) {
-            getWorld().addObject(new SnakeTail(), getX(), getY());
+            SnakeTail temp = new SnakeTail();
+            getWorld().addObject(temp, getX(), getY());
+            temp.setRotation(lastRotation);
             move(1);
             framesElapsed = 0;
+            lastRotation = getRotation();
         }
 
         isColliding(SnakeTail.class);

@@ -32,10 +32,10 @@ public class SnakeTail extends Actor
 
         Collections.sort(tailList);
 
-        for(int i : tailList) {
-            System.out.print(i + "\t"); 
-        }
-        System.out.println("");
+        //for(int i : tailList) {
+        //    System.out.print(i + "\t"); 
+        //}
+        //System.out.println("");
 
         for(int i=0;i<getWorld().getObjects(SnakeTail.class).size();i++) {
             if(getWorld().getObjects(SnakeTail.class).get(i).getTailFrames() == tailList.get(tailList.size() - 1)) {
@@ -46,31 +46,22 @@ public class SnakeTail extends Actor
                 lastTail.setImage(tail);
 
                 // determining the tail's direction and flipping it accordingly
-                SnakeHead tempHead = currentWorld.getObjects(SnakeHead.class).get(0);
+                SnakeTail tempHead = null;
 
-                if(tempHead.getRotation() == 0) {
-                    if(tempHead.getX() == lastTail.getX() ) {
-                        lastTail.setRotation(0);
-                        System.out.println("0");
+                for(int j=0;j<getWorld().getObjects(SnakeTail.class).size();j++) {
+                    if(tailList.size() > 1 && getWorld().getObjects(SnakeTail.class).get(j).getTailFrames() == tailList.get(tailList.size() - 2)) {
+                        tempHead = getWorld().getObjects(SnakeTail.class).get(j);
                     }
-
-                } else if(tempHead.getRotation() == 90) {
-                    if(tempHead.getY() == lastTail.getY() || tempHead.getX() == lastTail.getX() ) {
-                        lastTail.setRotation(90);
-                        System.out.println("90");
-                    }
-
-                } else if(tempHead.getRotation() == 180) {
-                    if(tempHead.getY() == lastTail.getY() ) {
-                        lastTail.setRotation(180);
-                        System.out.println("180");
-                    }
-
-                } else if(tempHead.getRotation() == 270) {
-                    if(tempHead.getY() == lastTail.getY() || tempHead.getX() == lastTail.getX() ) {
-                        lastTail.setRotation(270);
-                        System.out.println("270");
-                    }
+                }
+                        
+                if(tempHead != null && tempHead.getRotation() == 0) {
+                    lastTail.setRotation(0);
+                } else if(tempHead != null && tempHead.getRotation() == 90) {
+                    lastTail.setRotation(90);
+                } else if(tempHead != null && tempHead.getRotation() == 180) {
+                    lastTail.setRotation(180);
+                } else if(tempHead != null && tempHead.getRotation() == 270) {
+                    lastTail.setRotation(270);
                 }
             }
         }
