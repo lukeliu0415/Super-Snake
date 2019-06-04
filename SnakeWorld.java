@@ -27,7 +27,7 @@ public class SnakeWorld extends World
         
         
         startWorld();
-
+        //placeInstructionsLabel();
     }
     
     /**
@@ -45,7 +45,13 @@ public class SnakeWorld extends World
     public void changeGameState(String gameStateSet){
         gameState = gameStateSet;
     }
-    
+    public void placeInstructionsLabel(){
+     InstructionsLabel title = new InstructionsLabel("How to Play", 50);
+     addObject(title,15,10);
+     InstructionsLabel instructions = new InstructionsLabel("move the snake by using the arrow keys", 25);
+     addObject(instructions, 15, 15);
+     
+    }
     /**
      * Getter method for the game's seconds 
      * 
