@@ -33,10 +33,6 @@ public class SnakeHead extends Actor
         toTeleport();
         moveTongue();
         collidingFood(10);
-        
-        if(isTouching(Wall.class)) {
-            Greenfoot.stop();
-        }
     }
 
     /**
@@ -135,6 +131,7 @@ public class SnakeHead extends Actor
 
         isColliding(SnakeTail.class);
         isColliding(Pylon.class);
+        isColliding(Wall.class);
 
         if(Greenfoot.isKeyDown("right") && this.getRotation() != 0 && this.getRotation() != 180) {
             setRotation(0);

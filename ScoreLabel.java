@@ -25,8 +25,23 @@ public class ScoreLabel extends Label
         //Update and display the current score
         setText("Score: " + currentWorld.getScore());
         
-        if (nowScore == 10) {
-            Greenfoot.setWorld( new Level1());
+        if (nowScore == 2) {
+            if (getWorld() instanceof Level1) {
+                Greenfoot.setWorld(new Level2());
+            } else if (getWorld() instanceof Level2) {
+                Greenfoot.setWorld(new Level3());
+            } else if (getWorld() instanceof Level3) {
+                Greenfoot.setWorld(new Level4());
+            } else if (getWorld() instanceof Level4) {
+                Greenfoot.setWorld(new Level5());
+            } else if (getWorld() instanceof Level5) {
+                Greenfoot.setWorld(new Level6());
+            } else if (getWorld() instanceof Level6) {
+                Greenfoot.setWorld(new Level7());
+            } else if (getWorld() instanceof SnakeWorld) {
+                Greenfoot.setWorld(new Level1());
+            }
         }
+        
     } 
 }
