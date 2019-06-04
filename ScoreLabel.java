@@ -25,7 +25,7 @@ public class ScoreLabel extends Label
         //Update and display the current score
         setText("Score: " + currentWorld.getScore());
         
-        if (nowScore == 2) {
+        if (nowScore == 8) {
             if (getWorld() instanceof Level1) {
                 Greenfoot.setWorld(new Level2());
             } else if (getWorld() instanceof Level2) {

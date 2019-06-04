@@ -10,7 +10,7 @@ public class SnakeWorld extends World
 {
     private boolean debug;
     private int gameTime;
-    private int score;
+    int score;
     private String gameState = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     /**
