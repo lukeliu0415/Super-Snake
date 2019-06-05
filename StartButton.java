@@ -11,7 +11,7 @@ public class StartButton extends Button
     private boolean sliding = false;
     private GreenfootImage title = new GreenfootImage("startButton.png");
     public StartButton(){
-        title.scale(200,150);
+        title.scale(250,200);
         setImage(title);
     }
     public void removeButton(){

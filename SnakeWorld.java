@@ -13,6 +13,7 @@ public class SnakeWorld extends World
     int score;
     private String gameState = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
+    private GreenfootSound music = new GreenfootSound("");
     /**
      * Constructor for objects of class SnakeWorld.
      * 
@@ -23,10 +24,12 @@ public class SnakeWorld extends World
         //title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
         //setBackground(title);
         //StartButton start = new StartButton();//adds the start button
-        //addObject(start,17,15);
+        //addObject(start,15,12);
+        //InstructionsButton instructions = new InstructionsButton();
+        //addObject(instructions,15,17);
         
         
-        startWorld();
+        //startWorld();
         //placeInstructionsLabel();
     }
     
@@ -51,6 +54,12 @@ public class SnakeWorld extends World
      InstructionsLabel instructions = new InstructionsLabel("move the snake by using the arrow keys", 25);
      addObject(instructions, 15, 15);
      
+    }
+    public void changeMusic(String musicSet){
+     music.stop();
+     GreenfootSound music = new GreenfootSound(musicSet);
+     music.play();
+        
     }
     /**
      * Getter method for the game's seconds 
@@ -130,7 +139,7 @@ public class SnakeWorld extends World
         while(!addFood());
         addObject(new ScoreLabel(), 26, 1);
         addObject(new Timer(), 16, 1);
-
+        //music.play();
     }
     
     public void started() {
