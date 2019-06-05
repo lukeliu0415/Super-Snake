@@ -116,10 +116,14 @@ public class SnakeWorld extends World
     }
     
     public void startWorld(){//this method is supposed to create the grid world after the startbutton is pressed
+    
+        //GreenfootImage img = new GreenfootImage(20, 20);
+        //img.drawRect(0, 0, 20, 20);
+        //setBackground(img);
         
-        GreenfootImage img = new GreenfootImage(20, 20);
-        img.drawRect(0, 0, 20, 20);
+        GreenfootImage img = new GreenfootImage("grass.png");
         setBackground(img);
+        
         addObject(new SnakeHead(), genCoordinates()[0],
         genCoordinates()[1]);
 
