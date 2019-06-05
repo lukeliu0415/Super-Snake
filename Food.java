@@ -8,9 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Food extends Actor
 {
-    
     public Food() {
-        GreenfootImage food = getImage();
+        GreenfootImage food = new GreenfootImage("apple.png");
         food.scale(20, 20);
         setImage(food);
     }
