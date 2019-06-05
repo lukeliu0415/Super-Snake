@@ -29,7 +29,7 @@ public class SnakeWorld extends World
         //addObject(instructions,15,17);
         
         
-        //startWorld();
+        startWorld();
         //placeInstructionsLabel();
     }
     
