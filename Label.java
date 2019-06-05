@@ -11,6 +11,7 @@ public class Label extends Actor
     private int fontSize;
     private Color textColor;
     private Color bkColor;
+    private boolean afterFirstRun = false;
     /**
      * Act - do whatever the Label wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -42,6 +43,12 @@ public class Label extends Actor
     public void setTextColor(Color colorSet){
         textColor = colorSet;
         updateImage();
+    }
+    public void firstRunOver(){
+        afterFirstRun = true;
+    }
+    public boolean checkFirstRun(){
+        return afterFirstRun;
     }
     public void act() 
     {

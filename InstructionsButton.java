@@ -10,7 +10,7 @@ public class InstructionsButton extends Button
 {
     private GreenfootImage instructionsButton = new GreenfootImage("InstructionsButton.png");
     public InstructionsButton(){
-        instructionsButton.scale(200,150);
+        instructionsButton.scale(200,75);
         setImage(instructionsButton);
     }
         public void removeButton(){

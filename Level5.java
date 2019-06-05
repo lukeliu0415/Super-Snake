@@ -16,7 +16,7 @@ public class Level5 extends SnakeWorld
     public Level5()
     {
         super();
-        
+        this.startWorld();
         //set walls
         setWalls();
        

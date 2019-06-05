@@ -11,14 +11,8 @@ public class StartButton extends Button
     private boolean sliding = false;
     private GreenfootImage title = new GreenfootImage("startButton.png");
     public StartButton(){
-        title.scale(250,200);
+        title.scale(250,90);
         setImage(title);
-    }
-    public void removeButton(){
-     this.getWorld().removeObject(this);   
-    }
-    public void startSlideOff(){
-        sliding = true;
     }
     /**
      * Act - do whatever the StartButton wants to do. This method is called whenever
@@ -26,13 +20,5 @@ public class StartButton extends Button
      */
     public void act() 
     {
-        if (sliding){
-            this.setLocation(this.getX() + 1, this.getY());
-        }
-        if (Greenfoot.mouseClicked(this)) {
-            //this.getWorld().changeGameState("run");
-            this.removeButton();
-            
-        }
     }    
 }

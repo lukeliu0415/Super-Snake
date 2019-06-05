@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class ScoreLabel extends Label
 {
-    
+    private boolean afterFirstRun;
     public ScoreLabel(){//constructor for Score labels
         super("Score: 0", 30);
     }
@@ -25,7 +25,10 @@ public class ScoreLabel extends Label
         //Update and display the current score
         setText("Score: " + currentWorld.getScore());
         
-        if (nowScore == 8) {
+        if (nowScore == 1) {
+            afterFirstRun = true;
+            Label info = new Label("",0);//used to store information
+            info.firstRunOver();
             if (getWorld() instanceof Level1) {
                 Greenfoot.setWorld(new Level2());
             } else if (getWorld() instanceof Level2) {

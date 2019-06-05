@@ -16,7 +16,7 @@ public class Level3 extends SnakeWorld
     public Level3()
     {
         super();
-        
+        this.startWorld();
         //set walls
         setWalls();
        

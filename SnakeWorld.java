@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  * Write a description of class SnakeWorld here.
  * 
@@ -11,7 +11,7 @@ public class SnakeWorld extends World
     private boolean debug;
     private int gameTime;
     int score;
-    private String gameState = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
+    private String gameState;// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("");
     /**
@@ -21,15 +21,22 @@ public class SnakeWorld extends World
     public SnakeWorld()
     {    
         super(30, 30, 20, false); 
-        //title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
-        //setBackground(title);
-        //StartButton start = new StartButton();//adds the start button
-        //addObject(start,15,12);
-        //InstructionsButton instructions = new InstructionsButton();
-        //addObject(instructions,15,17);
+        //System.out.println("1. "+gameState);
         
-        
-        startWorld();
+        title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        setBackground(title);
+        StartButton start = new StartButton();//adds the start button
+        addObject(start,15,12);
+        InstructionsButton instructions = new InstructionsButton();
+        addObject(instructions,15,17);
+    
+        //System.out.println("2. "+gameState);
+    
+   
+       System.out.println("this is being run");
+    
+    
+        //System.out.println("3. "+gameState);
         //placeInstructionsLabel();
     }
     
@@ -135,10 +142,16 @@ public class SnakeWorld extends World
         
         addObject(new SnakeHead(), genCoordinates()[0],
         genCoordinates()[1]);
-
+        List buttonList = (getObjects(Button.class));//list holds all buttons present
+        Button tempButton = null;
+        for(int i=0;i < buttonList.size(); i++){//removes all buttons
+            tempButton = (Button)buttonList.get(i);
+            removeObject(tempButton);
+        }
         while(!addFood());
         addObject(new ScoreLabel(), 26, 1);
         addObject(new Timer(), 16, 1);
+        changeGameState("running");
         //music.play();
     }
     
@@ -153,6 +166,7 @@ public class SnakeWorld extends World
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        System.out.println(gameState);
         /*code for clicking the button to change the gameState*/ 
         MouseInfo mouse = Greenfoot.getMouseInfo();//code to check for interactions with the start button
         if (mouse!= null) {//checks if mouse is interacting with anything or something is happening w/ the mouse
@@ -168,10 +182,42 @@ public class SnakeWorld extends World
                      changeGameState("begin");
                      startWorld();
                      if(debug){System.out.println("world should be set up");}
-                     currentButton.removeButton();
                      //removeObject(getObjectsAt(300,100,Label.class));
                     }
                     
+                }
+                if(currentActor.getClass() == InstructionsButton.class){
+                 InstructionsButton currentButton = (InstructionsButton)currentActor;
+                 int mouseButtonPressed = mouse.getButton();
+                 int mouseClickCount = mouse.getClickCount();
+                 if(debug){System.out.println(mouseButtonPressed +"/"+mouseClickCount);}
+                 if (mouseClickCount == 1) {
+                     placeInstructionsLabel();
+                     List buttonList = (getObjects(Button.class));//list holds all buttons present
+                        Button tempButton = null;
+                        removeObjects(getObjects(StartButton.class));
+                        removeObjects(getObjects(InstructionsButton.class));
+                        Button backButton = new BackButton();
+                        addObject(backButton, 15, 20);
+                        
+                     if(debug){System.out.println("instructions being displayed");}
+                     
+                     
+                    }
+                }
+                if(currentActor.getClass() == BackButton.class){
+                    BackButton currentButton = (BackButton)currentActor;
+                 int mouseButtonPressed = mouse.getButton();
+                 int mouseClickCount = mouse.getClickCount();
+                    if (mouseClickCount == 1) {
+                        
+                        removeObjects(getObjects(BackButton.class));
+                         removeObjects(getObjects(InstructionsLabel.class));
+                         StartButton start = new StartButton();//adds the start button
+                        addObject(start,15,12);
+                        InstructionsButton instructions = new InstructionsButton();
+                        addObject(instructions,15,17);
+                    }
                 }
             }
         }
