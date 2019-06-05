@@ -16,6 +16,7 @@ public class SnakeHead extends Actor
     private GreenfootImage head;
     SnakeWorld currentWorld;
     int lastRotation = 0;
+    private boolean gameOver;
 
     public SnakeHead() {
         head = new GreenfootImage("snake-head_s01.png");
@@ -29,10 +30,19 @@ public class SnakeHead extends Actor
      */
     public void act() 
     {
-        snakeMove();
-        toTeleport();
-        moveTongue();
-        collidingFood(10);
+        if(!gameOver) {
+            toTeleport();
+            moveTongue();
+            collidingFood(10);
+            snakeMove();
+
+        } else {
+            getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
+            getWorld().removeObjects(getWorld().getObjects(Food.class));
+            getWorld().removeObjects(getWorld().getObjects(Pylon.class));
+            getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));
+            Greenfoot.stop();
+        }
     }
 
     /**
@@ -40,7 +50,15 @@ public class SnakeHead extends Actor
      */
     private void isColliding(Class classIn) {
         if(this.isTouching(classIn)) {
-            Greenfoot.stop();
+            GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
+            gameOverImage.scale(this.getWorld().getWidth()*20, this.getWorld().getHeight()*20); //sets the background of the startScreen
+            this.getWorld().setBackground(gameOverImage);
+            /*Greenfoot.stop();
+            getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
+            getWorld().removeObjects(getWorld().getObjects(Food.class));
+            getWorld().removeObjects(getWorld().getObjects(Pylon.class));
+            getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));*/
+            gameOver = true;
         }
     }
 
@@ -53,13 +71,13 @@ public class SnakeHead extends Actor
             // Appending 1 tail to the snake's body (10 frames = 1 tail)
             SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + tailsToAdd);
             ((SnakeWorld)getWorld()).increaseScore();
-            
+
             currentWorld = (SnakeWorld)getWorld();
             currentWorld.addFood();
-            
+
         }
     }
-    
+
     /**
      * Changes the snake's head picture every half a second to create an illusion to make it seem
      * as if the snake's tongue is actually moving
@@ -89,37 +107,39 @@ public class SnakeHead extends Actor
             setImage(head);
         }
     }
-    
+
     /**
      * Checking whether the object is touching one of the edges and moving object to the
      * parallel side
      */
     private void toTeleport() {
-        // Checking if the object has reached one of the sides of the screen and moving it to the other side
-        if(this.getX() == getWorld().getWidth()) {
-            this.setLocation(0, this.getY());
+        if (!gameOver){
+            // Checking if the object has reached one of the sides of the screen and moving it to the other side
+            if(this.getX() == getWorld().getWidth()) {
+                this.setLocation(0, this.getY());
 
-            // facing LEFT
-        } else if(this.getX() == -1) {
-            this.setLocation(getWorld().getWidth()-1, this.getY());
+                // facing LEFT
+            } else if(this.getX() == -1) {
+                this.setLocation(getWorld().getWidth()-1, this.getY());
 
-            // UP
-        } else if(this.getY() == -1) {
-            this.setLocation(this.getX(), getWorld().getHeight()-1);
+                // UP
+            } else if(this.getY() == -1) {
+                this.setLocation(this.getX(), getWorld().getHeight()-1);
 
-            // DOWN
-        } else if(this.getY() == getWorld().getHeight()) {
-            this.setLocation(this.getX(), 0);
-            
+                // DOWN
+            } else if(this.getY() == getWorld().getHeight()) {
+                this.setLocation(this.getX(), 0);
+
+            }
         }
     }
-    
+
     /**
      * Every 10 executions of the act() method, move once
      */
     private void snakeMove() {
         framesElapsed++;
-        
+
         if(framesElapsed == FRAMES_TO_LAST) {
             SnakeTail temp = new SnakeTail();
             getWorld().addObject(temp, getX(), getY());
@@ -127,12 +147,11 @@ public class SnakeHead extends Actor
             move(1);
             framesElapsed = 0;
             lastRotation = getRotation();
-        }
 
+        }
         isColliding(SnakeTail.class);
         isColliding(Pylon.class);
         isColliding(Wall.class);
-
         if(Greenfoot.isKeyDown("right") && this.getRotation() != 0 && this.getRotation() != 180) {
             setRotation(0);
         } else if(Greenfoot.isKeyDown("down") && this.getRotation() != 90 && this.getRotation() != 270) {
@@ -142,5 +161,6 @@ public class SnakeHead extends Actor
         } else if(Greenfoot.isKeyDown("up") && this.getRotation() != 90 && this.getRotation() != 270) {
             setRotation(270);
         }
+
     }
 }

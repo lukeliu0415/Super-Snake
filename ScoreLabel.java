@@ -25,7 +25,7 @@ public class ScoreLabel extends Label
         //Update and display the current score
         setText("Score: " + currentWorld.getScore());
         
-        if (nowScore == 1) {
+        if (nowScore == 8) {
             afterFirstRun = true;
             Label info = new Label("",0);//used to store information
             info.firstRunOver();
