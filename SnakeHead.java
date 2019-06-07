@@ -18,6 +18,7 @@ public class SnakeHead extends Actor
     private SnakeWorld currentWorld;
     private int lastRotation = 0;
     private boolean gameOver;
+
     private GreenfootSound munch = new GreenfootSound("Munch.mp3");
     public SnakeHead() {
         head = new GreenfootImage("snake-head_s01.png");
@@ -64,12 +65,14 @@ public class SnakeHead extends Actor
             this.getWorld().setBackground(gameOverImage);
             currentWorld.inputScore(currentWorld.getScore());
             
+
             Label text = new Label("Your score is: " + currentWorld.getScore() + "   High Score: " + currentWorld.getHighScore(), 30);
             currentWorld.addObject(text, 15, 8);
             gameOver = true;
-            
         }
     }
+    
+    
 
     /**
      * Adding more tails to the snake when colliding with food

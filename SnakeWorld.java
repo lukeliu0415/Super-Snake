@@ -13,6 +13,7 @@ public class SnakeWorld extends World
     private int gameTime;
     private int score;
     private int level;
+    EnemyHead eHead;
     private String gameState;// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
@@ -57,8 +58,21 @@ public class SnakeWorld extends World
     public void placeInstructionsLabel(){
         InstructionsLabel title = new InstructionsLabel("How to Play", 50);
         addObject(title,15,10);
-        InstructionsLabel instructions = new InstructionsLabel("move the snake by using the arrow keys", 25);
+        InstructionsLabel instructions = new InstructionsLabel("Move the snake by using the arrow keys", 25);
+        InstructionsLabel instructions1 = new InstructionsLabel("and try to survive as long as possible", 25);
+        InstructionsLabel instructions2 = new InstructionsLabel("Death will occur if:", 25);
+        InstructionsLabel instructions3 = new InstructionsLabel("You crash into yourself", 25);
+        InstructionsLabel instructions4 = new InstructionsLabel("You hit a pylon", 25);
+        InstructionsLabel instructions5 = new InstructionsLabel("You bump into a wall", 25);
+        
+      
         addObject(instructions, 15, 15);
+        addObject (instructions1, 15, 16);
+        addObject (instructions2, 15, 17);
+        addObject (instructions3, 15, 18);
+        addObject (instructions4, 15, 19);
+        addObject (instructions5, 15, 20);
+                
      
     }
     public void changeMusic(String musicSet){
@@ -81,12 +95,18 @@ public class SnakeWorld extends World
         score += num;
     }
     
+    public void addEnemy() {
+        eHead = new EnemyHead(); 
+        addObject(eHead, 1, 15);  
+    }
+    
     public boolean addPylon()
     {
         //Get random x and y coordinates to place the pylon
         int randX = genCoordinates()[0];
         int randY = genCoordinates()[1];
 
+        
         //Place the pylon if the desired location does not contain any other objects
         if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
             //Add the pylon into the game
@@ -197,8 +217,9 @@ public class SnakeWorld extends World
                 
                 removeObject(start);
                 removeObject(instructions);
+        
 
-                addObject(back, 15, 20);
+                addObject(back, 15, 25);
             } else if (mouse.getActor() == back) {
                 
                 removeObject(back);
@@ -207,6 +228,8 @@ public class SnakeWorld extends World
                 addObject(instructions,15,17);
             }
         }
+        
+        
 
         switch (level) {
             case 0: if (score >= 10) {
@@ -322,6 +345,9 @@ public class SnakeWorld extends World
         if (gameTime % 600 == 0) {
             while (!addPylon());
              //Repeat until successfully placed
+        }
+        if (gameTime % 12000 == 0) {
+           addEnemy();
         }
     }
 }
