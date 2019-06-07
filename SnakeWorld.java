@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.util.List;
+import java.util.*;
+import java.io.*;
 /**
  * Write a description of class SnakeWorld here.
  * 
@@ -10,10 +11,11 @@ public class SnakeWorld extends World
 {
     private boolean debug;
     private int gameTime;
-    int score;
+    private int score;
     private String gameState;// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("");
+    private ArrayList<Integer> scoreList = new ArrayList<Integer>();
     /**
      * Constructor for objects of class SnakeWorld.
      * 
@@ -33,7 +35,7 @@ public class SnakeWorld extends World
         //System.out.println("2. "+gameState);
     
    
-       System.out.println("this is being run");
+       //System.out.println("this is being run");
     
     
         //System.out.println("3. "+gameState);
@@ -115,12 +117,12 @@ public class SnakeWorld extends World
 
         //Place the food if the desired location does not contain any other objects
         if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
-            int randNum = (int) (Math.random()*2);
+            int randNum = (int) (Math.random()*5);
             
-            if (randNum == 0) {
+            if (randNum == 1 || randNum == 2 || randNum == 3 || randNum == 4) {
                 Food tempFood  = new Food();
                 addObject(tempFood, randX, randY);
-            } else if (randNum == 1) {
+            } else if (randNum == 0) {
                 Cherry tempCherry = new Cherry();
                 addObject(tempCherry, randX, randY);
             }
@@ -167,6 +169,29 @@ public class SnakeWorld extends World
         if (gameTime == 0) {
             SnakeTail.reset(this);
         }
+    }
+    
+    public void getScores() throws IOException{
+        Scanner k = new Scanner (new File("HighScores.txt"));
+        
+        while (k.hasNextInt()) {
+            scoreList.add(k.nextInt());
+        }
+        
+        k.close(); //Closes the file
+    }
+    
+    public void inputScore(int score) throws IOException{
+        PrintWriter o = new PrintWriter(new FileWriter("HighScores.txt", true));
+        o.println(score);
+        o.close();
+    }
+    
+    public int getHighScore() throws IOException{
+        getScores();
+        Collections.sort(scoreList);
+        System.out.println(scoreList.get(0));
+        return scoreList.get(scoreList.size() - 1);
     }
     
     /**

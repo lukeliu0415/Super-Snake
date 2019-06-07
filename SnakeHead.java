@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.io.*;
 
 /**
  * Write a description of class SnakeHead here.
@@ -28,17 +29,22 @@ public class SnakeHead extends Actor
      * Act - do whatever the SnakeHead wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act() 
+    public void act()
     {
         if(!gameOver) {
             toTeleport();
             moveTongue();
             collidingFood();
-            snakeMove();
+            try {
+                snakeMove();
+            }
+            catch(Exception E) {
+            }
 
         } else {
             getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
             getWorld().removeObjects(getWorld().getObjects(Food.class));
+            getWorld().removeObjects(getWorld().getObjects(Cherry.class));
             getWorld().removeObjects(getWorld().getObjects(Pylon.class));
             getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));
             Greenfoot.stop();
@@ -48,17 +54,18 @@ public class SnakeHead extends Actor
     /**
      * Stops the game when the snake intersecting with another class object 
      */
-    private void isColliding(Class classIn) {
+    private void isColliding(Class classIn) throws IOException{
+        currentWorld = (SnakeWorld) getWorld();
         if(this.isTouching(classIn)) {
             GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
             gameOverImage.scale(this.getWorld().getWidth()*20, this.getWorld().getHeight()*20); //sets the background of the startScreen
             this.getWorld().setBackground(gameOverImage);
-            /*Greenfoot.stop();
-            getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
-            getWorld().removeObjects(getWorld().getObjects(Food.class));
-            getWorld().removeObjects(getWorld().getObjects(Pylon.class));
-            getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));*/
+            currentWorld.inputScore(currentWorld.getScore());
+            
+            Label text = new Label("Your score is: " + currentWorld.getScore() + "   High Score: " + currentWorld.getHighScore(), 30);
+            currentWorld.addObject(text, 15, 8);
             gameOver = true;
+            
         }
     }
 
@@ -142,7 +149,7 @@ public class SnakeHead extends Actor
     /**
      * Every 10 executions of the act() method, move once
      */
-    private void snakeMove() {
+    private void snakeMove() throws IOException{
         framesElapsed++;
 
         if(framesElapsed == FRAMES_TO_LAST) {
