@@ -18,7 +18,7 @@ public class SnakeHead extends Actor
     SnakeWorld currentWorld;
     int lastRotation = 0;
     private boolean gameOver;
-
+    private GreenfootSound munch = new GreenfootSound("Munch.mp3");
     public SnakeHead() {
         head = new GreenfootImage("snake-head_s01.png");
         head.scale(20, 20);
@@ -47,6 +47,9 @@ public class SnakeHead extends Actor
             getWorld().removeObjects(getWorld().getObjects(Cherry.class));
             getWorld().removeObjects(getWorld().getObjects(Pylon.class));
             getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));
+            if (getWorld().getObjects(Wall.class) != null){
+            getWorld().removeObjects(getWorld().getObjects(Wall.class));
+        }
             Greenfoot.stop();
         }
     }
@@ -79,13 +82,14 @@ public class SnakeHead extends Actor
             // Appending 1 tail to the snake's body (10 frames = 1 tail)
             SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 10);
             currentWorld.increaseScore(1);
-
+               munchSound();
             //Fixed bug so that every time food gets added
             while (!currentWorld.addFood());
         } else if (isTouching(Cherry.class)) {
             removeTouching(Cherry.class);
             SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 20);
             currentWorld.increaseScore(2);
+            munchSound();
             while (!currentWorld.addFood());
         }
     }
@@ -174,5 +178,9 @@ public class SnakeHead extends Actor
             setRotation(270);
         }
 
+    }
+    private void munchSound(){
+        munch.play();
+            munch.setVolume(15);
     }
 }
