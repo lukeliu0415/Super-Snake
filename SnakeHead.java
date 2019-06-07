@@ -33,7 +33,7 @@ public class SnakeHead extends Actor
         if(!gameOver) {
             toTeleport();
             moveTongue();
-            collidingFood(10);
+            collidingFood();
             snakeMove();
 
         } else {
@@ -65,16 +65,21 @@ public class SnakeHead extends Actor
     /**
      * Adding more tails to the snake when colliding with food
      */
-    private void collidingFood(int tailsToAdd) {
+    private void collidingFood() {
+        currentWorld = (SnakeWorld) getWorld();
         if(isTouching(Food.class)) {
             removeTouching(Food.class); 
             // Appending 1 tail to the snake's body (10 frames = 1 tail)
-            SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + tailsToAdd);
-            ((SnakeWorld)getWorld()).increaseScore();
+            SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 10);
+            currentWorld.increaseScore(1);
 
-            currentWorld = (SnakeWorld)getWorld();
-            currentWorld.addFood();
-
+            //Fixed bug so that every time food gets added
+            while (!currentWorld.addFood());
+        } else if (isTouching(Cherry.class)) {
+            removeTouching(Cherry.class);
+            SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 20);
+            currentWorld.increaseScore(2);
+            while (!currentWorld.addFood());
         }
     }
 

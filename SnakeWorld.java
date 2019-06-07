@@ -87,8 +87,8 @@ public class SnakeWorld extends World
         return score;
     }
     
-    public void increaseScore() {
-        score++;
+    public void increaseScore(int num) {
+        score += num;
     }
     
     public boolean addPylon()
@@ -115,12 +115,20 @@ public class SnakeWorld extends World
 
         //Place the food if the desired location does not contain any other objects
         if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
+            int randNum = (int) (Math.random()*2);
+            
+            if (randNum == 0) {
+                Food tempFood  = new Food();
+                addObject(tempFood, randX, randY);
+            } else if (randNum == 1) {
+                Cherry tempCherry = new Cherry();
+                addObject(tempCherry, randX, randY);
+            }
             //Add the food into the game
-            Food tempFood  = new Food();
-            addObject(tempFood, randX, randY);
             
             return true;
         }
+
         return false;
     }
     
