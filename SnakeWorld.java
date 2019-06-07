@@ -12,10 +12,14 @@ public class SnakeWorld extends World
     private boolean debug;
     private int gameTime;
     private int score;
+    private int level;
     private String gameState;// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();
+    StartButton start;
+    InstructionsButton instructions;
+    BackButton back;
     /**
      * Constructor for objects of class SnakeWorld.
      * 
@@ -23,23 +27,16 @@ public class SnakeWorld extends World
     public SnakeWorld()
     {    
         super(30, 30, 20, false); 
-        //System.out.println("1. "+gameState);
         
         title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
         setBackground(title);
-        StartButton start = new StartButton();//adds the start button
+        start = new StartButton();//adds the start button
+        instructions = new InstructionsButton();
+        back = new BackButton();
+        
         addObject(start,15,12);
-        InstructionsButton instructions = new InstructionsButton();
         addObject(instructions,15,17);
     
-        //System.out.println("2. "+gameState);
-    
-   
-       //System.out.println("this is being run");
-    
-    
-        //System.out.println("3. "+gameState);
-        //placeInstructionsLabel();
     }
     
     /**
@@ -52,35 +49,23 @@ public class SnakeWorld extends World
         return gameTime;
     }
     public String getGameState(){
-     return gameState;   
+        return gameState;   
     }
     public void changeGameState(String gameStateSet){
         gameState = gameStateSet;
     }
     public void placeInstructionsLabel(){
-     InstructionsLabel title = new InstructionsLabel("How to Play", 50);
-     addObject(title,15,10);
-     InstructionsLabel instructions = new InstructionsLabel("move the snake by using the arrow keys", 25);
-     addObject(instructions, 15, 15);
+        InstructionsLabel title = new InstructionsLabel("How to Play", 50);
+        addObject(title,15,10);
+        InstructionsLabel instructions = new InstructionsLabel("move the snake by using the arrow keys", 25);
+        addObject(instructions, 15, 15);
      
     }
     public void changeMusic(String musicSet){
-     music.stop();
-     GreenfootSound music = new GreenfootSound(musicSet);
-     music.play();
+        music.stop();
+        GreenfootSound music = new GreenfootSound(musicSet);
+        music.play();
         
-    }
-    public void stopMusic(){
-    music.stop();
-}
-    /**
-     * Getter method for the game's seconds 
-     * 
-     * @return the number of seconds that have elapsed since the
-     * beginning of the game
-     */
-    public int getGameTime() {
-        return gameTime / 60;
     }
     
     /**
@@ -144,36 +129,33 @@ public class SnakeWorld extends World
         return coordinates;
     }
     
-    public void startWorld(){//this method is supposed to create the grid world after the startbutton is pressed
-    
-        //GreenfootImage img = new GreenfootImage(20, 20);
-        //img.drawRect(0, 0, 20, 20);
-        //setBackground(img);
+    public void startWorld() {//this method is supposed to create the grid world after the startbutton is pressed
         
         GreenfootImage img = new GreenfootImage("grass.png");
         setBackground(img);
         
-        addObject(new SnakeHead(), genCoordinates()[0],
-        genCoordinates()[1]);
-        List buttonList = (getObjects(Button.class));//list holds all buttons present
-        Button tempButton = null;
-        for(int i=0;i < buttonList.size(); i++){//removes all buttons
-            tempButton = (Button)buttonList.get(i);
-            removeObject(tempButton);
-        }
-        while(!addFood());
+        removeObjects(getObjects(Button.class));
+        addObject(new SnakeHead(), genCoordinates()[0], genCoordinates()[1]);
         addObject(new ScoreLabel(), 26, 1);
         addObject(new Timer(), 16, 1);
+        
+        while(!addFood());
+        
         changeGameState("running");
         music.play();
         music.setVolume(15);
-        System.out.println("music should be playing");
     }
     
     public void started() {
         if (gameTime == 0) {
             SnakeTail.reset(this);
         }
+        music.play();
+        music.setVolume(15);
+    }
+    
+    public void stopped() {
+        music.pause();
     }
     
     public void getScores() throws IOException{
@@ -195,7 +177,6 @@ public class SnakeWorld extends World
     public int getHighScore() throws IOException{
         getScores();
         Collections.sort(scoreList);
-        System.out.println(scoreList.get(0));
         return scoreList.get(scoreList.size() - 1);
     }
     
@@ -204,65 +185,141 @@ public class SnakeWorld extends World
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        System.out.println(gameState);
         /*code for clicking the button to change the gameState*/ 
         MouseInfo mouse = Greenfoot.getMouseInfo();//code to check for interactions with the start button
-        if (mouse!= null) {//checks if mouse is interacting with anything or something is happening w/ the mouse
-            Actor currentActor = mouse.getActor();
-            if (currentActor !=null){//checks if an actor is being interacted w/ or not
-                if (currentActor.getClass() == StartButton.class){//checks if the actor is a start button
-                    StartButton currentButton = (StartButton)currentActor;//converts the actor into a button
-                    int mouseButtonPressed = mouse.getButton();
-                    int mouseClickCount = mouse.getClickCount();
-                    if(debug){System.out.println(mouseButtonPressed +"/"+mouseClickCount);}
-                    
-                    if (mouseClickCount == 1) {
-                     changeGameState("begin");
-                     startWorld();
-                     if(debug){System.out.println("world should be set up");}
-                     //removeObject(getObjectsAt(300,100,Label.class));
-                    }
-                    
-                }
-                if(currentActor.getClass() == InstructionsButton.class){
-                 InstructionsButton currentButton = (InstructionsButton)currentActor;
-                 int mouseButtonPressed = mouse.getButton();
-                 int mouseClickCount = mouse.getClickCount();
-                 if(debug){System.out.println(mouseButtonPressed +"/"+mouseClickCount);}
-                 if (mouseClickCount == 1) {
-                     placeInstructionsLabel();
-                     List buttonList = (getObjects(Button.class));//list holds all buttons present
-                        Button tempButton = null;
-                        removeObjects(getObjects(StartButton.class));
-                        removeObjects(getObjects(InstructionsButton.class));
-                        Button backButton = new BackButton();
-                        addObject(backButton, 15, 20);
-                        
-                     if(debug){System.out.println("instructions being displayed");}
-                     
-                     
-                    }
-                }
-                if(currentActor.getClass() == BackButton.class){
-                    BackButton currentButton = (BackButton)currentActor;
-                 int mouseButtonPressed = mouse.getButton();
-                 int mouseClickCount = mouse.getClickCount();
-                    if (mouseClickCount == 1) {
-                        
-                        removeObjects(getObjects(BackButton.class));
-                         removeObjects(getObjects(InstructionsLabel.class));
-                         StartButton start = new StartButton();//adds the start button
-                        addObject(start,15,12);
-                        InstructionsButton instructions = new InstructionsButton();
-                        addObject(instructions,15,17);
-                    }
-                }
+        
+        if (mouse != null && mouse.getClickCount() == 1) {
+            if (mouse.getActor() == start) {
+                changeGameState("begin");
+                startWorld();
+            } else if (mouse.getActor() == instructions) {
+                placeInstructionsLabel();
+                
+                removeObject(start);
+                removeObject(instructions);
+
+                addObject(back, 15, 20);
+            } else if (mouse.getActor() == back) {
+                
+                removeObject(back);
+                removeObjects(getObjects(InstructionsLabel.class));
+                addObject(start,15,12);
+                addObject(instructions,15,17);
             }
         }
+
+        switch (level) {
+            case 0: if (score >= 10) {
+                        level = 1;
+                    }
+                    break;
+                    
+            case 1: removeObjects(getObjects(Pylon.class));
+                    for (int i = 0; i <= 30; i=i+5) {
+                        addObject(new Wall(), i, 15);
+                    }
+                    level = 11;
+                    
+            case 11:if (score >= 15) {
+                        level = 2;
+                    }
+                    break;
+                    
+            case 2: removeObjects(getObjects(Wall.class));
+                    removeObjects(getObjects(Pylon.class));
+                    
+                    for (int i = 0; i <= 30; i=i+5) {
+                        addObject(new Wall(), i, 0);
+                        addObject(new Wall(), i, 10);
+                        addObject(new Wall(), i, 20);
+                        addObject(new Wall(), i, 30);
+                    }
+                    level = 12;
+                    
+            case 12:if (score >= 20) {
+                        level = 3;
+                    }
+                    break;        
+                    
+            case 3: removeObjects(getObjects(Wall.class));
+                    removeObjects(getObjects(Pylon.class));
+                    
+                    for (int i = 0; i <= 30; i=i+5) {
+                        addObject(new Wall(), i, i);
+                    }
+                    level = 13;
+                    
+            case 13:if (score >= 25) {
+                        level = 4;
+                    }
+                    break; 
+                    
+            case 4: removeObjects(getObjects(Wall.class));
+                    removeObjects(getObjects(Pylon.class));
+                    
+                    for (int i = 0; i <= 30; i=i+5) {
+                        addObject(new Wall(), i, i);
+                        addObject(new Wall(), i, 30-i);
+                    }
+                    level = 14;
+            
+            case 14:if (score >= 30) {
+                        level = 5;
+                    }
+                    break;         
+                    
+            case 5: removeObjects(getObjects(Wall.class));
+                    removeObjects(getObjects(Pylon.class));
+                    
+                    for (int j = 0; j <= 30; j=j+10) {
+                        for (int i = 0; i <= 30; i=i+5) {
+                            addObject(new Wall(), i, j);
+                            addObject(new Wall(), i, 30-i);
+                            addObject(new Wall(), i, i);
+                            addObject(new Wall(), j, i);
+                        }
+                    }
+                    level = 15;
+            
+            case 15:if (score >= 35) {
+                        level = 6;
+                    }
+                    break;
+                    
+            case 6: removeObjects(getObjects(Wall.class));
+                    removeObjects(getObjects(Pylon.class));
+                    for (int i = 0; i <= 30; i=i+5) {
+                        addObject(new Wall(), i, 15);
+                        addObject(new Wall(), 15, i);
+                        addObject(new Wall(), i, 30-i);
+                        addObject(new Wall(), i, i);
+                    }
+                    level = 16;
+            
+            case 16:if (score >= 40) {
+                        level = 7;
+                    }
+                    break;        
+                    
+            case 7: removeObjects(getObjects(Wall.class));
+                    removeObjects(getObjects(Pylon.class));
+                    
+                    for (int j = 0; j <= 30; j=j+5) {
+                        for (int i = 0; i <= 30; i++) {
+                            addObject(new Wall(), i, j);
+                            if ((i == 5) || (i == 10) || (i == 15) || (i == 20) || (i == 25) || (i == 30)) {
+                                removeObjects(getObjectsAt(i, j, Wall.class));
+                            }
+                        }
+                    }
+                    break;
+        }
+        
+
         
         gameTime++;
-        
-        if (gameTime % 1200 == 0) {
+        //Pylon pops up every 10 seconds
+        if (gameTime % 600 == 0) {
             while (!addPylon());
              //Repeat until successfully placed
         }

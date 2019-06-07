@@ -15,8 +15,8 @@ public class SnakeHead extends Actor
     private int framesElapsed = 0;
     private final int FRAMES_TO_LAST = 10;
     private GreenfootImage head;
-    SnakeWorld currentWorld;
-    int lastRotation = 0;
+    private SnakeWorld currentWorld;
+    private int lastRotation = 0;
     private boolean gameOver;
     private GreenfootSound munch = new GreenfootSound("Munch.mp3");
     public SnakeHead() {
@@ -42,14 +42,13 @@ public class SnakeHead extends Actor
             }
 
         } else {
+            getWorld().removeObjects(getWorld().getObjects(Wall.class));
             getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
             getWorld().removeObjects(getWorld().getObjects(Food.class));
             getWorld().removeObjects(getWorld().getObjects(Cherry.class));
             getWorld().removeObjects(getWorld().getObjects(Pylon.class));
             getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));
-            if (getWorld().getObjects(Wall.class) != null){
-            getWorld().removeObjects(getWorld().getObjects(Wall.class));
-        }
+            
             Greenfoot.stop();
         }
     }
