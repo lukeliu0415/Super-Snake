@@ -155,7 +155,7 @@ public class SnakeWorld extends World
         setBackground(img);
         
         removeObjects(getObjects(Button.class));
-        addObject(new SnakeHead(), genCoordinates()[0], genCoordinates()[1]);
+        addObject(new SnakeHead(), 3, 5);
         addObject(new ScoreLabel(), 26, 1);
         addObject(new Timer(), 16, 1);
         
