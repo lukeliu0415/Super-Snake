@@ -14,7 +14,7 @@ public class SnakeWorld extends World
     private int score;
     private int level;
     EnemyHead eHead;
-    private String gameState = "";// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game)
+    private String gameState = "";// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game), or end
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();
@@ -69,7 +69,7 @@ public class SnakeWorld extends World
         InstructionsLabel instructions8 = new InstructionsLabel("If your score goes below 0, then you will lose", 25);
 
       
-        addObject(instructions, 15, 15);
+        addObject (instructions, 15, 15);
         addObject (instructions1, 15, 16);
         addObject (instructions2, 15, 17);
         addObject (instructions3, 15, 18);
@@ -119,7 +119,6 @@ public class SnakeWorld extends World
         int randX = genCoordinates()[0];
         int randY = genCoordinates()[1];
 
-        
         //Place the pylon if the desired location does not contain any other objects
         if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
             //Add the pylon into the game
@@ -180,12 +179,37 @@ public class SnakeWorld extends World
         music.setVolume(15);
     }
     
+    public void endWorld() throws IOException{
+        GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
+        gameOverImage.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        setBackground(gameOverImage);
+        inputScore(score);
+            
+        removeObjects(getObjects(Wall.class));
+        removeObjects(getObjects(SnakeTail.class));
+        removeObjects(getObjects(Food.class));
+        removeObjects(getObjects(Cherry.class));
+        removeObjects(getObjects(Pylon.class));
+        removeObjects(getObjects(LevelLabel.class));
+        removeObjects(getObjects(Timer.class));
+        removeObjects(getObjects(ScoreLabel.class));
+        removeObjects(getObjects(SnakeHead.class));
+
+        Label text = new Label("Your score is: " + score + "   High Score: " + getHighScore(), 30);
+        addObject(text, 15, 8);
+            
+        changeGameState("end");
+        music.stop();
+    }
+   
+    
     public void started() {
         if (gameTime == 0) {
             SnakeTail.reset(this);
+        } else {
+            music.play();
+            music.setVolume(15);
         }
-        music.play();
-        music.setVolume(15);
     }
     
     public void stopped() {
@@ -212,6 +236,11 @@ public class SnakeWorld extends World
         getScores();
         Collections.sort(scoreList);
         return scoreList.get(scoreList.size() - 1);
+    }
+    
+    public void displayLevel() {
+        LevelLabel showLevel = new LevelLabel("Leveled Up! Level: " + level, 30);
+        addObject(showLevel, 8, 4);
     }
     
     /**
@@ -256,10 +285,11 @@ public class SnakeWorld extends World
                     for (int i = 0; i <= 30; i=i+5) {
                         addObject(new Wall(), i, 15);
                     }
+                    displayLevel();
                     level = 11;
                     while (!addFood());
                     
-            case 11:if (score >= 15) {
+            case 11:if (score >= 20) {
                         level = 2;
                     }
                     break;
@@ -275,10 +305,11 @@ public class SnakeWorld extends World
                         addObject(new Wall(), i, 20);
                         addObject(new Wall(), i, 30);
                     }
+                    displayLevel();
                     level = 12;
                     while (!addFood());
                     
-            case 12:if (score >= 20) {
+            case 12:if (score >= 30) {
                         level = 3;
                     }
                     break;        
@@ -291,10 +322,11 @@ public class SnakeWorld extends World
                     for (int i = 0; i <= 30; i=i+5) {
                         addObject(new Wall(), i, i);
                     }
+                    displayLevel();
                     level = 13;
                     while (!addFood());
                     
-            case 13:if (score >= 25) {
+            case 13:if (score >= 40) {
                         level = 4;
                     }
                     break; 
@@ -308,10 +340,11 @@ public class SnakeWorld extends World
                         addObject(new Wall(), i, i);
                         addObject(new Wall(), i, 30-i);
                     }
+                    displayLevel();
                     level = 14;
                     while (!addFood());
             
-            case 14:if (score >= 30) {
+            case 14:if (score >= 50) {
                         level = 5;
                     }
                     break;         
@@ -329,10 +362,11 @@ public class SnakeWorld extends World
                             addObject(new Wall(), j, i);
                         }
                     }
+                    displayLevel();
                     level = 15;
                     while (!addFood());
             
-            case 15:if (score >= 35) {
+            case 15:if (score >= 60) {
                         level = 6;
                     }
                     break;
@@ -348,10 +382,11 @@ public class SnakeWorld extends World
                         addObject(new Wall(), i, 30-i);
                         addObject(new Wall(), i, i);
                     }
+                    displayLevel();
                     level = 16;
                     while (!addFood());
             
-            case 16:if (score >= 40) {
+            case 16:if (score >= 70) {
                         level = 7;
                     }
                     break;        
@@ -369,8 +404,11 @@ public class SnakeWorld extends World
                             }
                         }
                     }
+                    displayLevel();
+                    level = 17;
                     while (!addFood());
-                    break;
+            
+            case 17: //
         }
         
         if (gameState.equals("running")) {
@@ -384,7 +422,5 @@ public class SnakeWorld extends World
                 while (!addEnemy());
             }
         }
-        
-        
     }
 }

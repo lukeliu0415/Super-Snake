@@ -18,8 +18,6 @@ public class EnemyHead extends SnakeHead
         eHead = new GreenfootImage("enemy-head_s01.png");
         eHead.scale(20, 20);
         setImage(eHead);
-          
-        
     }
     
     /**
@@ -34,14 +32,9 @@ public class EnemyHead extends SnakeHead
        if(((SnakeWorld) getWorld()).getGameFrames() % 20 == 0) {
            this.move(1);
        }
-       
-       
 
        if (this.isTouching(null)) {
            removeTouching(EnemyHead.class);
        }
-    
     }    
-    
-   
 }

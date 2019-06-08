@@ -17,9 +17,8 @@ public class SnakeHead extends Actor
     private GreenfootImage head;
     private SnakeWorld currentWorld;
     private int lastRotation = 0;
-    private boolean gameOver;
-
     private GreenfootSound munch = new GreenfootSound("Munch.mp3");
+    
     public SnakeHead() {
         head = new GreenfootImage("snake-head_s01.png");
         head.scale(20, 20);
@@ -32,25 +31,21 @@ public class SnakeHead extends Actor
      */
     public void act()
     {
-        if(!gameOver) {
-            toTeleport();
-            moveTongue();
-            collidingFood();
-            try {
-                snakeMove();
-            }
-            catch(Exception E) {
-            }
-
-        } else {
-            getWorld().removeObjects(getWorld().getObjects(Wall.class));
-            getWorld().removeObjects(getWorld().getObjects(SnakeTail.class));
-            getWorld().removeObjects(getWorld().getObjects(Food.class));
-            getWorld().removeObjects(getWorld().getObjects(Cherry.class));
-            getWorld().removeObjects(getWorld().getObjects(Pylon.class));
-            getWorld().removeObjects(getWorld().getObjects(SnakeHead.class));
-            
-            Greenfoot.stop();
+        currentWorld = (SnakeWorld) getWorld();
+        
+        toTeleport();
+        moveTongue();
+        collidingFood();
+        
+        if (isTouching(EnemyHead.class)) {
+            removeTouching(EnemyHead.class); 
+            currentWorld.increaseScore(5);
+        }
+        
+        try {
+            snakeMove();
+        }
+        catch(Exception E) {
         }
     }
 
@@ -59,25 +54,11 @@ public class SnakeHead extends Actor
      */
     private void isColliding(Class classIn) throws IOException{
         currentWorld = (SnakeWorld) getWorld();
-        if ((this.isTouching(classIn)) || (currentWorld.getScore() < 0) ){
-            GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
-            gameOverImage.scale(this.getWorld().getWidth()*20, this.getWorld().getHeight()*20); //sets the background of the startScreen
-            this.getWorld().setBackground(gameOverImage);
-            currentWorld.inputScore(currentWorld.getScore());
-            
-
-            Label text = new Label("Your score is: " + currentWorld.getScore() + "   High Score: " + currentWorld.getHighScore(), 30);
-            currentWorld.addObject(text, 15, 8);
-            gameOver = true;
-        }
-        if (this.isTouching(EnemyHead.class)) {
-            removeTouching(EnemyHead.class); 
-            currentWorld.increaseScore(5);
+        if ((isTouching(classIn)) || (currentWorld.getScore() < 0) ){
+            currentWorld.endWorld();
         }
     }
     
-    
-
     /**
      * Adding more tails to the snake when colliding with food
      */
@@ -135,24 +116,22 @@ public class SnakeHead extends Actor
      * parallel side
      */
     private void toTeleport() {
-        if (!gameOver){
-            // Checking if the object has reached one of the sides of the screen and moving it to the other side
-            if(this.getX() == getWorld().getWidth()) {
-                this.setLocation(0, this.getY());
+        // Checking if the object has reached one of the sides of the screen and moving it to the other side
+        if(this.getX() == getWorld().getWidth()) {
+            this.setLocation(0, this.getY());
 
-                // facing LEFT
-            } else if(this.getX() == -1) {
-                this.setLocation(getWorld().getWidth()-1, this.getY());
+            // facing LEFT
+        } else if(this.getX() == -1) {
+            this.setLocation(getWorld().getWidth()-1, this.getY());
 
-                // UP
-            } else if(this.getY() == -1) {
-                this.setLocation(this.getX(), getWorld().getHeight()-1);
+            // UP
+        } else if(this.getY() == -1) {
+            this.setLocation(this.getX(), getWorld().getHeight()-1);
 
-                // DOWN
-            } else if(this.getY() == getWorld().getHeight()) {
-                this.setLocation(this.getX(), 0);
+            // DOWN
+        } else if(this.getY() == getWorld().getHeight()) {
+            this.setLocation(this.getX(), 0);
 
-            }
         }
     }
 
@@ -183,7 +162,6 @@ public class SnakeHead extends Actor
         } else if(Greenfoot.isKeyDown("up") && this.getRotation() != 90 && this.getRotation() != 270) {
             setRotation(270);
         }
-
     }
     private void munchSound(){
         munch.play();

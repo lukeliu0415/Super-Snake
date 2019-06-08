@@ -8,7 +8,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class ScoreLabel extends Label
 {
-    private boolean afterFirstRun;
     public ScoreLabel(){//constructor for Score labels
         super("Score: 0", 30);
     }
@@ -20,10 +19,8 @@ public class ScoreLabel extends Label
     public void act() 
     {
         SnakeWorld currentWorld = (SnakeWorld) getWorld();
-        int nowScore = currentWorld.getScore();
         
         //Update and display the current score
         setText("Score: " + currentWorld.getScore());
-        
     } 
 }
