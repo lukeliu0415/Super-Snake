@@ -82,31 +82,33 @@ public class SnakeHead extends Actor
     }
 
     /**
-     * Changes the snake's head picture every half a second to create an illusion to make it seem
+     * Changes the snake's head picture every half a second to make it seem
      * as if the snake's tongue is actually moving
      */
     private void moveTongue() {
         if(((SnakeWorld) getWorld()).getGameFrames() % 30 == 0) {
             headState++;
 
+            // Resating the counter every 3 iterations through the pictures
             if(headState > 2) headState = 0;
 
             switch(headState) {
                 case 0:   
-                directory = "snake-head_s01.png";
+                directory = "snake/head.png";
                 break;
 
                 case 1:
-                directory = "snake-head_s02.png";
+                directory = "snake/head-s2.png";
                 break;
 
                 case 2:
-                directory = "snake-head_s03.png";
+                directory = "snake/head-s3.png";
                 break;
             }
 
+            // Setting the new image of the snake head
             head = new GreenfootImage(directory);
-            head.scale(20, 20);
+            head.scale(21, 20);
             setImage(head);
         }
     }
