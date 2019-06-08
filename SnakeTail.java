@@ -12,7 +12,7 @@ public class SnakeTail extends Actor
 {
     private int framesElapsed = 0;
     // Each 10 frames represent one more tail (frames)
-    private static int lifeCycle = 25;
+    private static int lifeCycle;
     SnakeWorld currentWorld;
     ArrayList<Integer> tailList = new ArrayList<>();
 
@@ -26,19 +26,12 @@ public class SnakeTail extends Actor
      * Finding the snake's last tail and changing its image 
      */
     private void changeLastTail() {
-        
-        
-        
+
         for(SnakeTail tail : getWorld().getObjects(SnakeTail.class)) {
             tailList.add(tail.getTailFrames());
         }
 
         Collections.sort(tailList);
-
-        //for(int i : tailList) {
-        //    System.out.print(i + "\t"); 
-        //}
-        //System.out.println("");
 
         for(int i=0;i<getWorld().getObjects(SnakeTail.class).size();i++) {
             if(getWorld().getObjects(SnakeTail.class).get(i).getTailFrames() == tailList.get(tailList.size() - 1)) {

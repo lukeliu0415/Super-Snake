@@ -2,18 +2,18 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 import java.io.*;
 /**
- * Write a description of class SnakeWorld here.
+ * This class is the world where the Super Snake game occurs.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class SnakeWorld extends World
 {
-    private boolean debug;
+
     private int gameTime;
     private int score;
     private int level;
-    private String gameState = "";// = "start"; //this string will either have a value of start(start screen), running(running the game), or end
+    private boolean running;
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private GreenfootImage instructionsTitle = new GreenfootImage("InstructionsBackground.jpg");
@@ -22,6 +22,7 @@ public class SnakeWorld extends World
     InstructionsButton instructions;
     BackButton back;
     PlayAgainButton playAgain;
+    
     /**
      * Constructor for objects of class SnakeWorld.
      * 
@@ -54,12 +55,7 @@ public class SnakeWorld extends World
     public int getGameFrames() {
         return gameTime;
     }
-    public String getGameState(){
-        return gameState;   
-    }
-    public void changeGameState(String gameStateSet){
-        gameState = gameStateSet;
-    }
+
     public void placeInstructionsLabel(){
         InstructionsLabel title = new InstructionsLabel("How to Play", 50);
         addObject(title,15,10);
@@ -85,6 +81,7 @@ public class SnakeWorld extends World
         instructionsTitle.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
         setBackground(instructionsTitle);
     }
+    
     public void changeMusic(String musicSet){
         music.stop();
         GreenfootSound music = new GreenfootSound(musicSet);
@@ -169,6 +166,11 @@ public class SnakeWorld extends World
     public void startWorld() {//this method is supposed to create the grid world after the startbutton is pressed
         
         gameTime = 0;
+        score = 0;
+        level = 0;
+        running = true;
+        SnakeTail.setLifeDuration(25);
+        
         GreenfootImage img = new GreenfootImage("grass.png");
         setBackground(img);
         
@@ -178,7 +180,6 @@ public class SnakeWorld extends World
         
         while(!addFood());
         
-        changeGameState("running");
         music.play();
         music.setVolume(15);
     }
@@ -202,7 +203,7 @@ public class SnakeWorld extends World
         Label text = new Label("Your score is: " + score + "   High Score: " + getHighScore(), 30);
         addObject(text, 15, 8);
         addObject(playAgain, 24, 13);
-        changeGameState("end");
+        running = false;
         music.stop();
     }
     
@@ -278,7 +279,6 @@ public class SnakeWorld extends World
                 startScreen();
             }
         }
-        
         
         switch (level) {
             case 0: if (score >= 10) {
@@ -419,7 +419,7 @@ public class SnakeWorld extends World
             case 17: //
         }
         
-        if (gameState.equals("running")) {
+        if (running) {
             gameTime++;
             //Pylon pops up every 10 seconds
             if (gameTime % 600 == 0) {
