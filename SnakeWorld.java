@@ -26,8 +26,7 @@ public class SnakeWorld extends World
     /**
      * Constructor for objects of class SnakeWorld.
      */
-    public SnakeWorld()
-    {    
+    public SnakeWorld() {    
         //Create a 30*30 world with cells that are 20 pixels
         super(30, 30, 20, false);
 
@@ -42,13 +41,51 @@ public class SnakeWorld extends World
     }
     
     /**
-     * Method that constructs the intro screen.
+     * Method for constructing the intro screen.
      */
     public void startScreen() {
         title.scale(getWidth()*20, getHeight()*20);
         setBackground(title); //sets the background of the screen
         addObject(start,15,12);
         addObject(instructions,15,17); //Add buttons onto the screen
+    }
+    
+    /**
+     * Method for constructing the playing screen (after start button is pressed).
+     */
+    public void startWorld() {
+        //Set/reset game related variables
+        gameTime = 0;
+        score = 0;
+        level = 0;
+        running = true;
+        SnakeTail.setLifeDuration(25);
+        
+        //Set background image and add objects into the world
+        GreenfootImage img = new GreenfootImage("grass.png");
+        setBackground(img);
+        addObject(new SnakeHead(), 3, 5);
+        addObject(new ScoreLabel(), 26, 1);
+        addObject(new Timer(), 16, 1);
+        while(!addFood());
+        
+        //Play soundtrack
+        music.play();
+        music.setVolume(15);
+    }
+    
+    /**
+     * Method for placing instructions on the instructions screen.
+     */
+    public void placeInstructionsLabel(){
+        
+        Label title = new Label("How to Play", 50);
+        addObject(title,15,10);
+        
+        Instructions instructionsImage = new Instructions();
+        addObject(instructionsImage, 15, 20);
+        instructionsTitle.scale(getWidth()*20, getHeight()*20);
+        setBackground(instructionsTitle);
     }
     
     /**
@@ -61,33 +98,7 @@ public class SnakeWorld extends World
         return gameTime;
     }
 
-    public void placeInstructionsLabel(){
-        InstructionsLabel title = new InstructionsLabel("How to Play", 50);
-        addObject(title,15,10);
-        InstructionsLabel instructions = new InstructionsLabel("Move the snake by using the arrow keys", 25);
-        InstructionsLabel instructions1 = new InstructionsLabel("and try to survive as long as possible", 25);
-        InstructionsLabel instructions2 = new InstructionsLabel("Death will occur if:", 25);
-        InstructionsLabel instructions3 = new InstructionsLabel("You crash into yourself", 25);
-        InstructionsLabel instructions4 = new InstructionsLabel("You hit a pylon", 25);
-        InstructionsLabel instructions5 = new InstructionsLabel("You bump into a wall", 25);
-        InstructionsLabel instructions6 = new InstructionsLabel("Eating Snakes, cherries, and apples will reward you points", 25);
-        InstructionsLabel instructions7 = new InstructionsLabel("Bumping into the enemy snake will cost you points", 25);
-        InstructionsLabel instructions8 = new InstructionsLabel("If your score goes below 0, then you will lose", 25);
-      
-        /*addObject (instructions, 15, 15);
-        addObject (instructions1, 15, 16);
-        addObject (instructions2, 15, 17);
-        addObject (instructions3, 15, 18);
-        addObject (instructions4, 15, 19);
-        addObject (instructions5, 15, 20);
-        addObject (instructions6, 15, 21);
-        addObject (instructions7, 15, 22);
-        addObject (instructions8, 15, 23);*/
-        Instructions instructionsImage = new Instructions();
-        addObject(instructionsImage, 15, 20);
-        instructionsTitle.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
-        setBackground(instructionsTitle);
-    }
+    
     
     public void changeMusic(String musicSet){
         music.stop();
@@ -169,28 +180,7 @@ public class SnakeWorld extends World
         coordinates[1] = Greenfoot.getRandomNumber(getHeight());
         return coordinates;
     }
-    
-    public void startWorld() {//this method is supposed to create the grid world after the startbutton is pressed
-        
-        gameTime = 0;
-        score = 0;
-        level = 0;
-        running = true;
-        SnakeTail.setLifeDuration(25);
-        
-        GreenfootImage img = new GreenfootImage("grass.png");
-        setBackground(img);
-        
-        addObject(new SnakeHead(), 3, 5);
-        addObject(new ScoreLabel(), 26, 1);
-        addObject(new Timer(), 16, 1);
-        
-        while(!addFood());
-        
-        music.play();
-        music.setVolume(15);
-    }
-    
+
     public void endWorld() throws IOException{
         GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
         gameOverImage.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
@@ -276,7 +266,7 @@ public class SnakeWorld extends World
                 addObject(back, 5, 27);
             } else if (mouse.getActor() == back) {
                 removeObject(back);
-                removeObjects(getObjects(InstructionsLabel.class));
+                removeObjects(getObjects(Label.class));
                 removeObjects(getObjects(Instructions.class));
                 setBackground(title);
                 addObject(start,15,12);
