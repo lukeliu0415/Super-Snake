@@ -16,6 +16,7 @@ public class SnakeWorld extends World
     private String gameState = "";// = "start"; //this string will either have a value of start(start screen), running(running the game), or end
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
+    private GreenfootImage instructionsTitle = new GreenfootImage("InstructionsBackground.jpg");
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();
     StartButton start;
     InstructionsButton instructions;
@@ -81,6 +82,8 @@ public class SnakeWorld extends World
         addObject (instructions6, 15, 21);
         addObject (instructions7, 15, 22);
         addObject (instructions8, 15, 23);
+        instructionsTitle.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        setBackground(instructionsTitle);
     }
     public void changeMusic(String musicSet){
         music.stop();
@@ -266,6 +269,7 @@ public class SnakeWorld extends World
             } else if (mouse.getActor() == back) {
                 removeObject(back);
                 removeObjects(getObjects(InstructionsLabel.class));
+                setBackground(title);
                 addObject(start,15,12);
                 addObject(instructions,15,17);
             } else if (mouse.getActor() == playAgain) {
