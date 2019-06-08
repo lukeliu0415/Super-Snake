@@ -26,6 +26,9 @@ public class SnakeTail extends Actor
      * Finding the snake's last tail and changing its image 
      */
     private void changeLastTail() {
+        
+        
+        
         for(SnakeTail tail : getWorld().getObjects(SnakeTail.class)) {
             tailList.add(tail.getTailFrames());
         }
@@ -97,6 +100,11 @@ public class SnakeTail extends Actor
     public void act() 
     {
         currentWorld = (SnakeWorld) getWorld();
+        // decrease player score by 5
+        if (this.isTouching(EnemyHead.class)) {
+            currentWorld.decreaseScore(5); 
+            removeTouching(EnemyHead.class);
+        } 
         framesElapsed++;   
         changeLastTail();
 
@@ -114,5 +122,7 @@ public class SnakeTail extends Actor
 
             }
         }
+        
+        
     }    
 }

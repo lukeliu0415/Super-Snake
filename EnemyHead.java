@@ -31,6 +31,11 @@ public class EnemyHead extends SnakeHead
         // Add your action code here.
        this.setRotation(0);
        this.move(1);
+       
+
+       if (this.isTouching(null)) {
+           removeTouching(EnemyHead.class);
+       }
     
     }    
     

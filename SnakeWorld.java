@@ -64,7 +64,10 @@ public class SnakeWorld extends World
         InstructionsLabel instructions3 = new InstructionsLabel("You crash into yourself", 25);
         InstructionsLabel instructions4 = new InstructionsLabel("You hit a pylon", 25);
         InstructionsLabel instructions5 = new InstructionsLabel("You bump into a wall", 25);
-        
+        InstructionsLabel instructions6 = new InstructionsLabel("Eating Snakes, cherries, and apples will reward you points", 25);
+        InstructionsLabel instructions7 = new InstructionsLabel("Bumping into them will cost you points", 25);
+        InstructionsLabel instructions8 = new InstructionsLabel("If your score goes below 0, then you will lose", 25);
+
       
         addObject(instructions, 15, 15);
         addObject (instructions1, 15, 16);
@@ -72,7 +75,9 @@ public class SnakeWorld extends World
         addObject (instructions3, 15, 18);
         addObject (instructions4, 15, 19);
         addObject (instructions5, 15, 20);
-                
+        addObject (instructions6, 15, 21);
+        addObject (instructions7, 15, 22);
+        addObject (instructions8, 15, 23);        
      
     }
     public void changeMusic(String musicSet){
@@ -94,12 +99,20 @@ public class SnakeWorld extends World
     public void increaseScore(int num) {
         score += num;
     }
-    
-    public void addEnemy() {
-        eHead = new EnemyHead(); 
-        addObject(eHead, 1, 15);  
+    public void decreaseScore(int num) {
+        score -= num;
     }
     
+    public boolean addEnemy() {
+        int eY = genCoordinates()[1];
+        eHead = new EnemyHead(); 
+        if (getObjectsAt(1, eY, null).isEmpty()) {
+            addObject(eHead, 1, eY);
+            return true;
+        }
+        return false;
+       
+    }
     public boolean addPylon()
     {
         //Get random x and y coordinates to place the pylon
@@ -219,7 +232,7 @@ public class SnakeWorld extends World
                 removeObject(instructions);
         
 
-                addObject(back, 15, 25);
+                addObject(back, 15, 27);
             } else if (mouse.getActor() == back) {
                 
                 removeObject(back);
@@ -346,8 +359,9 @@ public class SnakeWorld extends World
             while (!addPylon());
              //Repeat until successfully placed
         }
-        if (gameTime % 12000 == 0) {
+        if (gameTime % 1800 == 0) { // enemy every 30 seconods
            addEnemy();
         }
+        
     }
 }

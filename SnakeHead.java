@@ -59,7 +59,7 @@ public class SnakeHead extends Actor
      */
     private void isColliding(Class classIn) throws IOException{
         currentWorld = (SnakeWorld) getWorld();
-        if(this.isTouching(classIn)) {
+        if ((this.isTouching(classIn)) || (currentWorld.getScore() < 0) ){
             GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
             gameOverImage.scale(this.getWorld().getWidth()*20, this.getWorld().getHeight()*20); //sets the background of the startScreen
             this.getWorld().setBackground(gameOverImage);
@@ -69,6 +69,10 @@ public class SnakeHead extends Actor
             Label text = new Label("Your score is: " + currentWorld.getScore() + "   High Score: " + currentWorld.getHighScore(), 30);
             currentWorld.addObject(text, 15, 8);
             gameOver = true;
+        }
+        if (this.isTouching(EnemyHead.class)) {
+            removeTouching(EnemyHead.class); 
+            currentWorld.increaseScore(5);
         }
     }
     
