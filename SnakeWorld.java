@@ -74,7 +74,7 @@ public class SnakeWorld extends World
         InstructionsLabel instructions7 = new InstructionsLabel("Bumping into the enemy snake will cost you points", 25);
         InstructionsLabel instructions8 = new InstructionsLabel("If your score goes below 0, then you will lose", 25);
       
-        addObject (instructions, 15, 15);
+        /*addObject (instructions, 15, 15);
         addObject (instructions1, 15, 16);
         addObject (instructions2, 15, 17);
         addObject (instructions3, 15, 18);
@@ -82,7 +82,9 @@ public class SnakeWorld extends World
         addObject (instructions5, 15, 20);
         addObject (instructions6, 15, 21);
         addObject (instructions7, 15, 22);
-        addObject (instructions8, 15, 23);
+        addObject (instructions8, 15, 23);*/
+        Instructions instructionsImage = new Instructions();
+        addObject(instructionsImage, 15, 20);
         instructionsTitle.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
         setBackground(instructionsTitle);
     }
@@ -271,10 +273,11 @@ public class SnakeWorld extends World
                 removeObject(start);
                 removeObject(instructions);
         
-                addObject(back, 15, 27);
+                addObject(back, 5, 27);
             } else if (mouse.getActor() == back) {
                 removeObject(back);
                 removeObjects(getObjects(InstructionsLabel.class));
+                removeObjects(getObjects(Instructions.class));
                 setBackground(title);
                 addObject(start,15,12);
                 addObject(instructions,15,17);
