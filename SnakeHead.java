@@ -88,7 +88,7 @@ public class SnakeHead extends Actor
             // Appending 1 tail to the snake's body (10 frames = 1 tail)
             SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 10);
             currentWorld.increaseScore(1);
-               munchSound();
+            munchSound();
             //Fixed bug so that every time food gets added
             while (!currentWorld.addFood());
         } else if (isTouching(Cherry.class)) {
@@ -187,6 +187,6 @@ public class SnakeHead extends Actor
     }
     private void munchSound(){
         munch.play();
-            munch.setVolume(15);
+        munch.setVolume(15);
     }
 }
