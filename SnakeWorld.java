@@ -25,25 +25,30 @@ public class SnakeWorld extends World
     
     /**
      * Constructor for objects of class SnakeWorld.
-     * 
      */
     public SnakeWorld()
     {    
-        super(30, 30, 20, false); 
+        //Create a 30*30 world with cells that are 20 pixels
+        super(30, 30, 20, false);
 
+        //Initialize the buttons
         start = new StartButton();
         instructions = new InstructionsButton();
         back = new BackButton();
         playAgain = new PlayAgainButton();
         
+        //Show intro screen
         startScreen();
     }
     
+    /**
+     * Method that constructs the intro screen.
+     */
     public void startScreen() {
-        title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
-        setBackground(title);
+        title.scale(getWidth()*20, getHeight()*20);
+        setBackground(title); //sets the background of the screen
         addObject(start,15,12);
-        addObject(instructions,15,17);
+        addObject(instructions,15,17); //Add buttons onto the screen
     }
     
     /**
