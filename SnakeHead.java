@@ -19,9 +19,12 @@ public class SnakeHead extends Actor
     private int lastRotation = 0;
     private GreenfootSound munch = new GreenfootSound("Munch.mp3");
     
+	/**
+     * Constructor for the snake head object
+     */
     public SnakeHead() {
-        head = new GreenfootImage("snake-head_s01.png");
-        head.scale(20, 20);
+        head = new GreenfootImage("snake/head.png");
+        head.scale(21, 20);
         setImage(head);
     }
 

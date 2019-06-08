@@ -23,7 +23,7 @@ public class SnakeTail extends Actor
      * A constructor for the snake's tails
      */
     public SnakeTail() {
-        GreenfootImage tail = new GreenfootImage("snake-tail.png");
+        GreenfootImage tail = new GreenfootImage("snake/body.png");
         tail.scale(21, 21);
         setImage(tail);
     }
