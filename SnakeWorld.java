@@ -13,14 +13,14 @@ public class SnakeWorld extends World
     private int gameTime;
     private int score;
     private int level;
-    EnemyHead eHead;
-    private String gameState = "";// = "start"; //this string will either have a value of start(start screen), begin(initializing world), or running(running the game), or end
+    private String gameState = "";// = "start"; //this string will either have a value of start(start screen), running(running the game), or end
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();
     StartButton start;
     InstructionsButton instructions;
     BackButton back;
+    PlayAgainButton playAgain;
     /**
      * Constructor for objects of class SnakeWorld.
      * 
@@ -28,16 +28,20 @@ public class SnakeWorld extends World
     public SnakeWorld()
     {    
         super(30, 30, 20, false); 
-        
-        title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
-        setBackground(title);
-        start = new StartButton();//adds the start button
+
+        start = new StartButton();
         instructions = new InstructionsButton();
         back = new BackButton();
+        playAgain = new PlayAgainButton();
         
+        startScreen();
+    }
+    
+    public void startScreen() {
+        title.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
+        setBackground(title);
         addObject(start,15,12);
         addObject(instructions,15,17);
-    
     }
     
     /**
@@ -67,7 +71,6 @@ public class SnakeWorld extends World
         InstructionsLabel instructions6 = new InstructionsLabel("Eating Snakes, cherries, and apples will reward you points", 25);
         InstructionsLabel instructions7 = new InstructionsLabel("Bumping into the enemy snake will cost you points", 25);
         InstructionsLabel instructions8 = new InstructionsLabel("If your score goes below 0, then you will lose", 25);
-
       
         addObject (instructions, 15, 15);
         addObject (instructions1, 15, 16);
@@ -77,20 +80,18 @@ public class SnakeWorld extends World
         addObject (instructions5, 15, 20);
         addObject (instructions6, 15, 21);
         addObject (instructions7, 15, 22);
-        addObject (instructions8, 15, 23);        
-     
+        addObject (instructions8, 15, 23);
     }
     public void changeMusic(String musicSet){
         music.stop();
         GreenfootSound music = new GreenfootSound(musicSet);
         music.play();
-        
     }
     
     /**
      * Getter method for the score
      * 
-     * @return the user's score (# of coins collected)
+     * @return the user's score
      */
     public int getScore() {
         return score;
@@ -99,20 +100,21 @@ public class SnakeWorld extends World
     public void increaseScore(int num) {
         score += num;
     }
+    
     public void decreaseScore(int num) {
         score -= num;
     }
     
     public boolean addEnemy() {
         int eY = genCoordinates()[1];
-        eHead = new EnemyHead(); 
+        EnemyHead eHead = new EnemyHead(); 
         if (getObjectsAt(1, eY, null).isEmpty()) {
             addObject(eHead, 1, eY);
             return true;
         }
         return false;
-       
     }
+    
     public boolean addPylon()
     {
         //Get random x and y coordinates to place the pylon
@@ -167,7 +169,6 @@ public class SnakeWorld extends World
         GreenfootImage img = new GreenfootImage("grass.png");
         setBackground(img);
         
-        removeObjects(getObjects(Button.class));
         addObject(new SnakeHead(), 3, 5);
         addObject(new ScoreLabel(), 26, 1);
         addObject(new Timer(), 16, 1);
@@ -197,11 +198,10 @@ public class SnakeWorld extends World
 
         Label text = new Label("Your score is: " + score + "   High Score: " + getHighScore(), 30);
         addObject(text, 15, 8);
-            
+        addObject(playAgain, 24, 13);
         changeGameState("end");
         music.stop();
     }
-   
     
     public void started() {
         if (gameTime == 0) {
@@ -253,7 +253,8 @@ public class SnakeWorld extends World
         
         if (mouse != null && mouse.getClickCount() == 1) {
             if (mouse.getActor() == start) {
-                changeGameState("begin");
+                removeObject(start);
+                removeObject(instructions);
                 startWorld();
             } else if (mouse.getActor() == instructions) {
                 placeInstructionsLabel();
@@ -263,11 +264,14 @@ public class SnakeWorld extends World
         
                 addObject(back, 15, 27);
             } else if (mouse.getActor() == back) {
-                
                 removeObject(back);
                 removeObjects(getObjects(InstructionsLabel.class));
                 addObject(start,15,12);
                 addObject(instructions,15,17);
+            } else if (mouse.getActor() == playAgain) {
+                removeObject(playAgain);
+                removeObjects(getObjects(Label.class));
+                startScreen();
             }
         }
         
