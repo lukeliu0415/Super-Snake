@@ -14,8 +14,6 @@ public class SnakeWorld extends World
     private int score;
     private int level;
     private boolean running;
-    private int highScore;
-    private String bestPlayer;
     public String pName;
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
@@ -26,6 +24,7 @@ public class SnakeWorld extends World
     InstructionsButton instructions;
     BackButton back;
     PlayAgainButton playAgain;
+    LeaderBoardButton leaderBoard;
     
     /**
      * Constructor for objects of class SnakeWorld.
@@ -39,6 +38,7 @@ public class SnakeWorld extends World
         instructions = new InstructionsButton();
         back = new BackButton();
         playAgain = new PlayAgainButton();
+        leaderBoard = new LeaderBoardButton();
         
         //Show intro screen
         startScreen();
@@ -50,8 +50,9 @@ public class SnakeWorld extends World
     public void startScreen() {
         title.scale(getWidth()*20, getHeight()*20);
         setBackground(title); //sets the background of the screen
-        addObject(start,15,12);
-        addObject(instructions,15,17); //Add buttons onto the screen
+        addObject(start, 15, 12);
+        addObject(instructions, 15, 17); //Add buttons onto the screen
+        addObject(leaderBoard, 25, 17);
     }
     
     /**
@@ -82,14 +83,23 @@ public class SnakeWorld extends World
      * Method for placing instructions on the instructions screen.
      */
     public void placeInstructionsLabel(){
-        
-        Label title = new Label("How to Play", 50);
-        addObject(title,15,10);
-        
         Instructions instructionsImage = new Instructions();
         addObject(instructionsImage, 15, 20);
         instructionsTitle.scale(getWidth()*20, getHeight()*20);
         setBackground(instructionsTitle);
+    }
+    
+    public void placeLeaderBoardLabel() throws IOException{
+        Label title = new Label("Leader Board", 50);
+        addObject(title, 15, 10);
+        
+        getScores();
+        
+        for (int i = 0; i <= 4 || i > nameList.size(); i++) {
+            Label line = new Label("Player #" + (i+1) + ": " + nameList.get(i) + 
+            " (Score: " + scoreList.get(i) + ")", 28);
+            addObject(line, 15, 13+2*i);
+        }
     }
     
     /**
@@ -115,10 +125,6 @@ public class SnakeWorld extends World
      */
     public int getScore() {
         return score;
-    }
-    
-    public String getName() {
-        return pName;
     }
     
     public void increaseScore(int num) {
@@ -220,7 +226,7 @@ public class SnakeWorld extends World
         removeObjects(getObjects(null));
 
         getScores();
-        Label text = new Label(pName + "'s Score: " + score + "   High Score: " + highScore + " (" + bestPlayer + ")", 30);
+        Label text = new Label(pName + "'s Score: " + score + "   High Score: " + scoreList.get(0) + " (" + nameList.get(0) + ")", 30);
         addObject(text, 15, 8);
         addObject(playAgain, 24, 13);
         running = false;
@@ -257,9 +263,6 @@ public class SnakeWorld extends World
             }
         }
         
-        bestPlayer = nameList.get(0);
-        highScore = scoreList.get(0);
-        
         k.close(); //Closes the file
     }
     
@@ -290,23 +293,29 @@ public class SnakeWorld extends World
                     pName = Greenfoot.ask("Max 6 characters!");
                 }
                 
-                removeObject(start);
-                removeObject(instructions);
+                removeObjects(getObjects(Button.class));
+                
                 startWorld();
             } else if (mouse.getActor() == instructions) {
                 placeInstructionsLabel();
                 
-                removeObject(start);
-                removeObject(instructions);
+                removeObjects(getObjects(Button.class));
         
+                addObject(back, 5, 27);
+            } else if (mouse.getActor() == leaderBoard) {
+                try {
+                    placeLeaderBoardLabel();
+                } catch(Exception E) {
+                }
+                
+                removeObjects(getObjects(Button.class));
+                
                 addObject(back, 5, 27);
             } else if (mouse.getActor() == back) {
                 removeObject(back);
                 removeObjects(getObjects(Label.class));
                 removeObjects(getObjects(Instructions.class));
-                setBackground(title);
-                addObject(start,15,12);
-                addObject(instructions,15,17);
+                startScreen();
             } else if (mouse.getActor() == playAgain) {
                 removeObject(playAgain);
                 removeObjects(getObjects(Label.class));
@@ -460,7 +469,7 @@ public class SnakeWorld extends World
                 while (!addPylon());
                 //Repeat until successfully placed
             }
-            if (gameTime % 300 == 0) { // enemy every 30 seconods
+            if (gameTime % 1800 == 0) { // enemy every 30 seconods
                 while (!addEnemy());
             }
         }
