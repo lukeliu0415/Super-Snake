@@ -8,7 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class ScoreLabel extends Label
 {
-    public ScoreLabel(){//constructor for Score labels
+    /**
+     * Constructor for score label
+     */
+    public ScoreLabel(){
         super("Score: 0", 30);
     }
     
@@ -18,6 +21,7 @@ public class ScoreLabel extends Label
      */
     public void act() 
     {
+        // set currentworld 
         SnakeWorld currentWorld = (SnakeWorld) getWorld();
         
         //Update and display the current score

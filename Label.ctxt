@@ -1,17 +1,21 @@
 #BlueJ class context
 comment0.target=Label
-comment0.text=\n\ Write\ a\ description\ of\ class\ Label\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Label\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=setText\ fontSizeSet
 comment1.target=Label(java.lang.String,\ int)
-comment1.text=\n\ Act\ -\ do\ whatever\ the\ Label\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Label\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 comment2.params=
 comment2.target=void\ updateImage()
+comment2.text=\r\n\ Method\ to\ update\ the\ image\r\n
 comment3.params=textSet
 comment3.target=void\ setText(java.lang.String)
+comment3.text=\r\n\ Setter\ method\ that\ sets\ the\ label\ text\r\n\ \r\n\ @param\ text\ to\ set\ the\ label\ with\r\n
 comment4.params=fontSizeSet
 comment4.target=void\ setFontSize(int)
+comment4.text=\r\n\ Setter\ method\ for\ the\ font\ of\ the\ text\r\n\ \r\n\ @param\ size\ to\ set\ the\ font\r\n
 comment5.params=colorSet
 comment5.target=void\ setTextColor(greenfoot.Color)
+comment5.text=\r\n\ Setter\ method\ for\ the\ colour\ of\ the\ text\r\n\ \r\n\ @param\ color\ to\ set\ the\ text\r\n
 comment6.params=
 comment6.target=void\ act()
 numComments=7

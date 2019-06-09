@@ -9,6 +9,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class BackButton extends Button
 {
     private GreenfootImage backButton = new GreenfootImage("backButton.png");
+    
+    /**
+     * Method for back button
+     * 
+     */
     public BackButton(){
         backButton.scale(175,75);
         setImage(backButton);

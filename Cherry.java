@@ -8,6 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Cherry extends Actor
 {
+    /**
+     * constructor for cherry
+     */
     public Cherry() {
         GreenfootImage cherry = getImage();
         cherry.scale(20, 20);

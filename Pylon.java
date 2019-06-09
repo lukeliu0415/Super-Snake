@@ -8,6 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Pylon extends Actor
 {
+    /**
+     * Constructor for pylon
+     */
     public Pylon() {
         GreenfootImage pylon = getImage();
         pylon.scale(20, 20);

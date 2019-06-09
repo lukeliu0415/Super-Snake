@@ -9,7 +9,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class InstructionsButton extends Button
 {
     private GreenfootImage instructionsButton = new GreenfootImage("InstructionsButton.png");
-    
+    /**
+     * Method for instruction button
+     */
     public InstructionsButton(){
         instructionsButton.scale(200,75);
         setImage(instructionsButton);

@@ -10,6 +10,9 @@ public class PlayAgainButton extends Button
 {
     private GreenfootImage playAgainButton = new GreenfootImage("restartButton.png");
     
+    /**
+     * Method for play again button 
+     */
     public PlayAgainButton(){
         playAgainButton.scale(200,75);
         setImage(playAgainButton);

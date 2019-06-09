@@ -8,6 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Wall extends Actor
 {
+    /**
+     * Constructor for the walls
+     */
      public Wall() {
         GreenfootImage wall = getImage();
         wall.scale(20, 20);

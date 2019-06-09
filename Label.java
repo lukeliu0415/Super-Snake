@@ -26,19 +26,37 @@ public class Label extends Actor
         
         updateImage();
     }
+    /**
+     * Method to update the image
+     */
     public void updateImage(){
         GreenfootImage img = new GreenfootImage(text, fontSize, textColor, bkColor);
         setImage(img);
         
     }
+    /**
+     * Setter method that sets the label text
+     * 
+     * @param text to set the label with
+     */
     public void setText(String textSet){
         text = textSet;
         updateImage();
     }
+    /**
+     * Setter method for the font of the text
+     * 
+     * @param size to set the font
+     */
     public void setFontSize(int fontSizeSet){
         fontSize = fontSizeSet;
         updateImage();
     }
+    /**
+     * Setter method for the colour of the text
+     * 
+     * @param color to set the text
+     */
     public void setTextColor(Color colorSet){
         textColor = colorSet;
         updateImage();

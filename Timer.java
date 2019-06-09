@@ -12,6 +12,9 @@ public class Timer extends Label
     LocalTime timer = LocalTime.MIDNIGHT;
     // Creating an object of type LocalTime which will store the number of HH/MM/SS Passed since
     
+    /**
+     * Constructor for timer
+     */
     public Timer() {
         super("Timer: 00:00:00", 30);
     }

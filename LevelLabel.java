@@ -10,6 +10,12 @@ public class LevelLabel extends Label
 {
     private int time = 0;
     
+    /**
+     * Constructor for Level label
+     * 
+     * @param text to set the label with
+     * @param font size for the text
+     */
     public LevelLabel(String text, int fontSizeSet){
         super(text,fontSizeSet);
     }
@@ -20,8 +26,8 @@ public class LevelLabel extends Label
      */
     public void act() 
     {
+        // time to keep the label alive (about 3 seconds)
         time++;
-        
         if (time == 180) {
             getWorld().removeObject(this);
         }

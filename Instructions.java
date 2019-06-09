@@ -10,6 +10,9 @@ public class Instructions extends Actor
 {
     private GreenfootImage instructionsImage = new GreenfootImage("InstructionsPictograph.png");
    
+   /**
+     * Constructor for instructions button
+    */
    public  Instructions(){
        instructionsImage.scale(450,375);
         setImage(instructionsImage);

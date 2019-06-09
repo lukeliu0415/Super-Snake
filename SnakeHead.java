@@ -34,13 +34,16 @@ public class SnakeHead extends Actor
      */
     public void act()
     {
+        // set current world
         currentWorld = (SnakeWorld) getWorld();
 
+        // run methods for the snake animation
         toTeleport();
         moveTongue();
         collidingFood();
         snakeMove();
         
+        // set the snake to be able to eat enemy snakes
         if (isTouching(EnemyHead.class)) {
             removeTouching(EnemyHead.class); 
             currentWorld.increaseScore(5);
@@ -169,6 +172,9 @@ public class SnakeHead extends Actor
         }
     }
 
+    /**
+     * method to play the sound
+     */
     public void munchSound(){
         munch.play();
         munch.setVolume(15);

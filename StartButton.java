@@ -10,6 +10,10 @@ public class StartButton extends Button
 {
     private boolean sliding = false;
     private GreenfootImage title = new GreenfootImage("startButton.png");
+    
+    /**
+     * Method for start button
+     */
     public StartButton(){
         title.scale(250,90);
         setImage(title);
