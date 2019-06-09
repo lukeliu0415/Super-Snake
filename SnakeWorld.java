@@ -51,8 +51,8 @@ public class SnakeWorld extends World
         title.scale(getWidth()*20, getHeight()*20);
         setBackground(title); //sets the background of the screen
         addObject(start, 15, 12);
-        addObject(instructions, 15, 17); //Add buttons onto the screen
-        addObject(leaderBoard, 25, 17);
+        addObject(instructions, 15, 17);
+        addObject(leaderBoard, 25, 17); //Add buttons onto the screen
     }
     
     /**
@@ -80,26 +80,67 @@ public class SnakeWorld extends World
     }
     
     /**
-     * Method for placing instructions on the instructions screen.
+     * Method for constructing the game over screen after the game ends.
+     */
+    public void endWorld() throws IOException{
+        GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
+        gameOverImage.scale(getWidth()*20, getHeight()*20);
+        setBackground(gameOverImage); //sets the background of the screen
+        removeObjects(getObjects(null)); //Remove all objects from the world
+        inputScore(score); //Input this play's score into the document
+        getScores(); //Get all scores from the document
+        
+        //Display this play's score, top score and top player
+        Label text = new Label(pName + "'s Score: " + score + "   High Score: "
+        + scoreList.get(0) + " (" + nameList.get(0) + ")", 30);
+        addObject(text, 15, 8);
+        
+        addObject(playAgain, 24, 13); //Add play again button
+        running = false;
+        music.stop(); //Stop the music
+    }
+    
+    /**
+     * Method for placing objects on the instructions screen.
      */
     public void placeInstructionsLabel(){
+        //Set the background and place the image that shows instructions
         Instructions instructionsImage = new Instructions();
         addObject(instructionsImage, 15, 20);
         instructionsTitle.scale(getWidth()*20, getHeight()*20);
         setBackground(instructionsTitle);
     }
     
+    /**
+     * Method for placing objects on the leader board screen.
+     */
     public void placeLeaderBoardLabel() throws IOException{
         Label title = new Label("Leader Board", 50);
-        addObject(title, 15, 10);
+        addObject(title, 15, 10); //Add the title
         
-        getScores();
+        getScores(); //Get scores and corresponding players from the file
         
+        //Display empty message if no plays have occured
+        if (nameList.size() == 0) {
+            Label line = new Label("Currently empty!", 28);
+            addObject(line, 15, 13);
+        }
+        
+        //Display top players and their scores
         for (int i = 0; i <= 4 || i > nameList.size(); i++) {
             Label line = new Label("Player #" + (i+1) + ": " + nameList.get(i) + 
             " (Score: " + scoreList.get(i) + ")", 28);
             addObject(line, 15, 13+2*i);
         }
+    }
+    
+    /**
+     * Method for displaying the current level during the game.
+     */
+    public void displayLevel() {
+        //Display the level (last 3 seconds)
+        LevelLabel showLevel = new LevelLabel("Leveled Up! Level: " + level, 30);
+        addObject(showLevel, 8, 4);
     }
     
     /**
@@ -112,12 +153,6 @@ public class SnakeWorld extends World
         return gameTime;
     }
 
-    public void changeMusic(String musicSet){
-        music.stop();
-        GreenfootSound music = new GreenfootSound(musicSet);
-        music.play();
-    }
-    
     /**
      * Getter method for the score
      * 
@@ -127,20 +162,40 @@ public class SnakeWorld extends World
         return score;
     }
     
+    /**
+     * Setter method that increases the score
+     * 
+     * @param score that is increased
+     */
     public void increaseScore(int num) {
         score += num;
     }
     
+    /**
+     * Setter method that decreases the score
+     * 
+     * @param score that is decreased
+     */
     public void decreaseScore(int num) {
         score -= num;
     }
     
+    /**
+     * Method for placing the enemy snake
+     * 
+     * @return If the enemy snake is successfully placed
+     */
     public boolean addEnemy() {
-        int rand = (int) (Math.random() * 4);
+        int rand = (int) (Math.random() * 4); //This value determines which direction the snake moves
+        
+        //Get random x and y coordinates to place the snake
         int eY = genCoordinates()[1];
         int eX = genCoordinates()[0];
-        EnemyHead eHead = new EnemyHead();
         
+        EnemyHead eHead = new EnemyHead(); //Construct an enemy head
+        
+        //Place the enemy snake in location and set direction according to the random value
+        //Only place it when the desired location does not contain any other objects
         if (rand == 0) {
             if (getObjectsAt(1, eY, null).isEmpty()) {
                 addObject(eHead, 1, eY);
@@ -169,6 +224,11 @@ public class SnakeWorld extends World
         return false;
     }
     
+    /**
+     * Method for placing the pylon
+     * 
+     * @return If the pylon is successfully placed
+     */
     public boolean addPylon()
     {
         //Get random x and y coordinates to place the pylon
@@ -186,6 +246,11 @@ public class SnakeWorld extends World
         return false;
     }
 
+    /**
+     * Method for placing the food
+     * 
+     * @return If the food is successfully placed
+     */
     public boolean addFood() {
         //Get random x and y coordinates to place the food
         int randX = genCoordinates()[0];
@@ -193,8 +258,10 @@ public class SnakeWorld extends World
 
         //Place the food if the desired location does not contain any other objects
         if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
-            int randNum = (int) (Math.random()*5);
             
+            //20% probability the cherry will be placed, 80% probability the apple will be placed
+            int randNum = (int) (Math.random()*5);
+
             if (randNum == 1 || randNum == 2 || randNum == 3 || randNum == 4) {
                 Food tempFood  = new Food();
                 addObject(tempFood, randX, randY);
@@ -202,60 +269,62 @@ public class SnakeWorld extends World
                 Cherry tempCherry = new Cherry();
                 addObject(tempCherry, randX, randY);
             }
-            //Add the food into the game
-            
             return true;
         }
-
         return false;
     }
     
+    /**
+     * Method for generating coordinates
+     * 
+     * @return [0] - random X value, [1] - random Y value
+     */
     public int[] genCoordinates() {
         int[] coordinates = new int[2];
         coordinates[0] = Greenfoot.getRandomNumber(getWidth());
         coordinates[1] = Greenfoot.getRandomNumber(getHeight());
         return coordinates;
     }
-
-    public void endWorld() throws IOException{
-        GreenfootImage gameOverImage = new GreenfootImage("gameOver.jpg");
-        gameOverImage.scale(getWidth()*20, getHeight()*20); //sets the background of the startScreen
-        setBackground(gameOverImage);
-        inputScore(score);
-            
-        removeObjects(getObjects(null));
-
-        getScores();
-        Label text = new Label(pName + "'s Score: " + score + "   High Score: " + scoreList.get(0) + " (" + nameList.get(0) + ")", 30);
-        addObject(text, 15, 8);
-        addObject(playAgain, 24, 13);
-        running = false;
-        music.stop();
-    }
     
+    /**
+     * Method that controls what happens after run is clicked
+     */
     public void started() {
-        if (gameTime == 0) {
-            SnakeTail.reset(this);
-        } else {
+        //Play music if the game is in progress
+        if (running) {
             music.play();
             music.setVolume(15);
         }
     }
     
+    /**
+     * Method that controls what happens after pause is clicked
+     */
     public void stopped() {
+        //Pause the music
         music.pause();
     }
     
+    /**
+     * Method for getting all past scores from the document
+     */
     public void getScores() throws IOException{
+        //Create a new scanner that scans the file
         Scanner k = new Scanner (new File("HighScores.txt"));
+        
+        //Scan each line from the file
         while (k.hasNextLine()) {
+            //Split each line into the score and the name
             String temp[] = k.nextLine().split(" ");
             int sc = Integer.parseInt(temp[0]);
             String name = temp[1];
+            
+            //Add the score and the name onto their respective list
             scoreList.add(sc);
             nameList.add(name);
         }
         
+        //Use bubble sort to sort through all the scores with their respective player names
         for (int i = 1; i < scoreList.size(); i++) {
             for (int j = i; j > 0 && scoreList.get(j - 1) <= scoreList.get(j); j--) {
                 Collections.swap(scoreList, j, j - 1);
@@ -263,82 +332,94 @@ public class SnakeWorld extends World
             }
         }
         
-        k.close(); //Closes the file
-    }
-    
-    public void inputScore(int score) throws IOException{
-        PrintWriter o = new PrintWriter(new FileWriter("HighScores.txt", true));
-        o.println(score + " " + pName);
-        o.close();
-    }
-    
-    public void displayLevel() {
-        LevelLabel showLevel = new LevelLabel("Leveled Up! Level: " + level, 30);
-        addObject(showLevel, 8, 4);
+        k.close(); //Close the file
     }
     
     /**
-     * Act - do whatever the ParkingLot wants to do. This method is called whenever
+     * Method for inputting the score after a game ends
+     */
+    public void inputScore(int score) throws IOException{
+        //Append a line (score and the name) into the file
+        PrintWriter o = new PrintWriter(new FileWriter("HighScores.txt", true));
+        o.println(score + " " + pName);
+        
+        o.close(); //Close the file
+    }
+    
+    /**
+     * Act - do whatever the SnakeWorld wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        /*code for clicking the button to change the gameState*/ 
-        MouseInfo mouse = Greenfoot.getMouseInfo();//code to check for interactions with the start button
-        
+        //Detect which button is clicked
+        MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse != null && mouse.getClickCount() == 1) {
             if (mouse.getActor() == start) {
+                //If the start button is clicked, prompt the user to enter the name
                 pName = Greenfoot.ask("Enter your name: (max 6 characters)");
                 
+                //Make sure the name is no longer than 6 characters
                 while (pName.length() > 6) {
                     pName = Greenfoot.ask("Max 6 characters!");
                 }
                 
-                removeObjects(getObjects(Button.class));
-                
-                startWorld();
+                removeObjects(getObjects(Button.class)); //Remove buttons
+                startWorld(); //Initialize the world
             } else if (mouse.getActor() == instructions) {
-                placeInstructionsLabel();
+                //If the instructions button is clicked
+                placeInstructionsLabel(); //Place the instructions
                 
-                removeObjects(getObjects(Button.class));
-        
-                addObject(back, 5, 27);
+                removeObjects(getObjects(Button.class)); //Remove buttons
+                addObject(back, 5, 27); //Add the back button
             } else if (mouse.getActor() == leaderBoard) {
+                //If the leader board button is clicked
                 try {
-                    placeLeaderBoardLabel();
+                    placeLeaderBoardLabel(); //Place the leaderboard labels
                 } catch(Exception E) {
                 }
                 
-                removeObjects(getObjects(Button.class));
-                
-                addObject(back, 5, 27);
+                removeObjects(getObjects(Button.class)); //Remove buttons
+                addObject(back, 5, 27); //Add the back button
             } else if (mouse.getActor() == back) {
+                //If the back button is clicked, remove all objects
                 removeObject(back);
                 removeObjects(getObjects(Label.class));
                 removeObjects(getObjects(Instructions.class));
-                startScreen();
+                startScreen(); //Initialize the start screen
             } else if (mouse.getActor() == playAgain) {
+                //If the play again button is clicked, remove all objects
                 removeObject(playAgain);
                 removeObjects(getObjects(Label.class));
-                startScreen();
+                startScreen(); //Initialize the start screen
             }
         }
         
+        /* The following code initializes different levels. Every time the player
+         * gains 10 points in the score, he/she moves onto the next level.
+         * Each level contains walls that are set up differently.
+         * Only the first two cases are commented due to repetitiveness.
+         * 
+         * Case 1-7 show the initialization of different levels.
+         * Case 0, 11-17 track whether the player is eligible to move onto the next level.
+         */
         switch (level) {
             case 0: if (score >= 10) {
                         level = 1;
-                    }
+                    } //Move onto the next level when the score reaches 10
                     break;
                     
-            case 1: removeObjects(getObjects(Pylon.class));
+            case 1: //remove all obstacles and food
+                    removeObjects(getObjects(Pylon.class));
                     removeObjects(getObjects(Food.class));
                     removeObjects(getObjects(Cherry.class));
                     
+                    //Add walls
                     for (int i = 0; i <= 30; i=i+5) {
                         addObject(new Wall(), i, 15);
                     }
-                    displayLevel();
-                    level = 11;
-                    while (!addFood());
+                    displayLevel(); //Display the current level
+                    level = 11; //Move on to the tracking phase
+                    while (!addFood()); //Add the food into the game
                     
             case 11:if (score >= 20) {
                         level = 2;
@@ -462,15 +543,20 @@ public class SnakeWorld extends World
             case 17: //
         }
         
+        //If the game is running
         if (running) {
             gameTime++;
-            //Pylon pops up every 10 seconds
+            
+            //A pylon pops up every 10 seconds
             if (gameTime % 600 == 0) {
                 while (!addPylon());
                 //Repeat until successfully placed
             }
-            if (gameTime % 1800 == 0) { // enemy every 30 seconods
+            
+            //An enemy snake pops up every 30 seconds
+            if (gameTime % 1800 == 0) {
                 while (!addEnemy());
+                //Repeat until successfully placed
             }
         }
     }
