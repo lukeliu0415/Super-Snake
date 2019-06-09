@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
+import javax.swing.*;
 import java.io.*;
 /**
  * This class is the world where the Super Snake game occurs.
@@ -14,6 +15,7 @@ public class SnakeWorld extends World
     private int score;
     private int level;
     private boolean running;
+    public String pName;
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private GreenfootImage instructionsTitle = new GreenfootImage("InstructionsBackground.jpg");
@@ -115,6 +117,10 @@ public class SnakeWorld extends World
         return score;
     }
     
+    public String getName() {
+        return pName;
+    }
+    
     public void increaseScore(int num) {
         score += num;
     }
@@ -124,8 +130,45 @@ public class SnakeWorld extends World
     }
     
     public boolean addEnemy() {
+        int rand = genCoordinates()[0];
         int eY = genCoordinates()[1];
+        int eX = genCoordinates()[0];
         EnemyHead eHead = new EnemyHead(); 
+        if (rand < 5) {
+            if (getObjectsAt(1, eY, null).isEmpty()) {
+                eHead.setRotation(0);
+                addObject(eHead, 1, eY);
+                return true;
+            }
+        }
+        else if (rand < 15) {
+            if (getObjectsAt(1, eY, null).isEmpty()) {
+                eHead.setRotation(180);
+                addObject(eHead, 30, eY);
+                return true;
+            }
+        }
+        else if (rand < 20) {
+            if (getObjectsAt(eX, 1, null).isEmpty()) {
+                eHead.setRotation(270);
+                addObject(eHead, eX, 30);
+                return true;
+            }
+        }
+         else if (rand < 30) {
+            if (getObjectsAt(eX, 1, null).isEmpty()) {
+                eHead.setRotation(90);
+                addObject(eHead, eX, 1);
+                return true;
+            }
+        }
+        else {
+            if (getObjectsAt(1, eY, null).isEmpty()) {
+                eHead.setRotation(0);
+                addObject(eHead, 1, eY);
+                return true;
+            }
+        }
         if (getObjectsAt(1, eY, null).isEmpty()) {
             addObject(eHead, 1, eY);
             return true;
@@ -197,7 +240,7 @@ public class SnakeWorld extends World
         removeObjects(getObjects(ScoreLabel.class));
         removeObjects(getObjects(SnakeHead.class));
 
-        Label text = new Label("Your score is: " + score + "   High Score: " + getHighScore(), 30);
+        Label text = new Label(pName + "'s score is: " + score + "   High Score: " + getHighScore(), 30);
         addObject(text, 15, 8);
         addObject(playAgain, 24, 13);
         running = false;
@@ -218,18 +261,22 @@ public class SnakeWorld extends World
     }
     
     public void getScores() throws IOException{
+        int s;
         Scanner k = new Scanner (new File("HighScores.txt"));
-        
-        while (k.hasNextInt()) {
-            scoreList.add(k.nextInt());
+        while (k.hasNextLine()) {
+             s = Integer.parseInt((k.nextLine()).replaceAll("[^0-9]", ""));
+             scoreList.add(s);
         }
+        //while (k.hasNextInt()) {
+          //  scoreList.add(k.nextInt());
+        //}
         
         k.close(); //Closes the file
     }
     
     public void inputScore(int score) throws IOException{
         PrintWriter o = new PrintWriter(new FileWriter("HighScores.txt", true));
-        o.println(score);
+        o.println(score + " " + pName);
         o.close();
     }
     
@@ -254,6 +301,7 @@ public class SnakeWorld extends World
         
         if (mouse != null && mouse.getClickCount() == 1) {
             if (mouse.getActor() == start) {
+                pName = JOptionPane.showInputDialog("Enter your name");
                 removeObject(start);
                 removeObject(instructions);
                 startWorld();
