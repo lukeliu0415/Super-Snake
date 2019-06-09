@@ -312,6 +312,9 @@ public class SnakeWorld extends World
         //Create a new scanner that scans the file
         Scanner k = new Scanner (new File("HighScores.txt"));
         
+        scoreList.clear();
+        nameList.clear();
+        
         //Scan each line from the file
         while (k.hasNextLine()) {
             //Split each line into the score and the name
