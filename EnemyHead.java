@@ -25,17 +25,17 @@ public class EnemyHead extends SnakeHead
     {
         currentWorld = (SnakeWorld) getWorld();
         
-        if (isTouching(SnakeHead.class)) {
-            currentWorld.increaseScore(5);
-            currentWorld.removeObject(this);
-        } else if (isTouching(SnakeTail.class)) {
-            currentWorld.decreaseScore(5);
-            currentWorld.removeObject(this);
-        }
-        
         if(currentWorld.getGameFrames() % 20 == 0) {
             move(1);
         }
         
+        if (isTouching(SnakeHead.class)) {
+            currentWorld.increaseScore(5);
+            currentWorld.removeObject(this);
+            munchSound();
+        } else if (isTouching(SnakeTail.class)) {
+            currentWorld.decreaseScore(5);
+            currentWorld.removeObject(this);
+        }
     }    
 }

@@ -10,16 +10,18 @@ import java.io.*;
  */
 public class SnakeWorld extends World
 {
-
     private int gameTime;
     private int score;
     private int level;
     private boolean running;
+    private int highScore;
+    private String bestPlayer;
     public String pName;
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private GreenfootImage instructionsTitle = new GreenfootImage("InstructionsBackground.jpg");
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();
+    private ArrayList<String> nameList = new ArrayList<String>();
     StartButton start;
     InstructionsButton instructions;
     BackButton back;
@@ -217,7 +219,8 @@ public class SnakeWorld extends World
             
         removeObjects(getObjects(null));
 
-        Label text = new Label(pName + "'s Score: " + score + "   High Score: " + getHighScore(), 30);
+        getScores();
+        Label text = new Label(pName + "'s Score: " + score + "   High Score: " + highScore + " (" + bestPlayer + ")", 30);
         addObject(text, 15, 8);
         addObject(playAgain, 24, 13);
         running = false;
@@ -238,15 +241,24 @@ public class SnakeWorld extends World
     }
     
     public void getScores() throws IOException{
-        int s;
         Scanner k = new Scanner (new File("HighScores.txt"));
         while (k.hasNextLine()) {
-             s = Integer.parseInt((k.nextLine()).replaceAll("[^0-9]", ""));
-             scoreList.add(s);
+            String temp[] = k.nextLine().split(" ");
+            int sc = Integer.parseInt(temp[0]);
+            String name = temp[1];
+            scoreList.add(sc);
+            nameList.add(name);
         }
-        //while (k.hasNextInt()) {
-          //  scoreList.add(k.nextInt());
-        //}
+        
+        for (int i = 1; i < scoreList.size(); i++) {
+            for (int j = i; j > 0 && scoreList.get(j - 1) <= scoreList.get(j); j--) {
+                Collections.swap(scoreList, j, j - 1);
+                Collections.swap(nameList, j, j - 1);
+            }
+        }
+        
+        bestPlayer = nameList.get(0);
+        highScore = scoreList.get(0);
         
         k.close(); //Closes the file
     }
@@ -255,12 +267,6 @@ public class SnakeWorld extends World
         PrintWriter o = new PrintWriter(new FileWriter("HighScores.txt", true));
         o.println(score + " " + pName);
         o.close();
-    }
-    
-    public int getHighScore() throws IOException{
-        getScores();
-        Collections.sort(scoreList);
-        return scoreList.get(scoreList.size() - 1);
     }
     
     public void displayLevel() {
@@ -278,7 +284,12 @@ public class SnakeWorld extends World
         
         if (mouse != null && mouse.getClickCount() == 1) {
             if (mouse.getActor() == start) {
-                pName = Greenfoot.ask("Enter your name:");
+                pName = Greenfoot.ask("Enter your name: (max 6 characters)");
+                
+                while (pName.length() > 6) {
+                    pName = Greenfoot.ask("Max 6 characters!");
+                }
+                
                 removeObject(start);
                 removeObject(instructions);
                 startWorld();
@@ -449,7 +460,7 @@ public class SnakeWorld extends World
                 while (!addPylon());
                 //Repeat until successfully placed
             }
-            if (gameTime % 1800 == 0) { // enemy every 30 seconods
+            if (gameTime % 300 == 0) { // enemy every 30 seconods
                 while (!addEnemy());
             }
         }

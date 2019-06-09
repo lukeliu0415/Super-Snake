@@ -39,14 +39,16 @@ public class SnakeHead extends Actor
         toTeleport();
         moveTongue();
         collidingFood();
-
+        snakeMove();
+        
         if (isTouching(EnemyHead.class)) {
             removeTouching(EnemyHead.class); 
             currentWorld.increaseScore(5);
+            munchSound();
         }
-
+        
         try {
-            snakeMove();
+            isColliding();
         }
         catch(Exception E) {
         }
@@ -55,19 +57,19 @@ public class SnakeHead extends Actor
     /**
      * Stops the game when the snake intersecting with another class object 
      */
-    private void isColliding(Class classIn) throws IOException{
+    private void isColliding() throws IOException{
         currentWorld = (SnakeWorld) getWorld();
         
-        if ((isTouching(classIn)) || currentWorld.getScore() < 0){
+        if ((isTouching(SnakeTail.class)) || isTouching(Pylon.class) ||
+        isTouching(Wall.class) || currentWorld.getScore() < 0){
             currentWorld.endWorld();
         }
-        
     }
 
     /**
      * Adding more tails to the snake when colliding with food
      */
-    private void collidingFood() {
+    public void collidingFood() {
         currentWorld = (SnakeWorld) getWorld();
         if(isTouching(Food.class)) {
             removeTouching(Food.class); 
@@ -144,7 +146,7 @@ public class SnakeHead extends Actor
     /**
      * Every 10 executions of the act() method, move once
      */
-    private void snakeMove() throws IOException{
+    private void snakeMove(){
         framesElapsed++;
 
         if(framesElapsed == FRAMES_TO_LAST) {
@@ -155,10 +157,6 @@ public class SnakeHead extends Actor
             framesElapsed = 0;
             lastRotation = getRotation();
         }
-        
-        isColliding(SnakeTail.class);
-        isColliding(Pylon.class);
-        isColliding(Wall.class);
         
         if(Greenfoot.isKeyDown("right") && this.getRotation() != 0 && this.getRotation() != 180) {
             setRotation(0);
@@ -171,7 +169,7 @@ public class SnakeHead extends Actor
         }
     }
 
-    private void munchSound(){
+    public void munchSound(){
         munch.play();
         munch.setVolume(15);
     }
