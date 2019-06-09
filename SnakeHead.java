@@ -18,13 +18,13 @@ public class SnakeHead extends Actor
     private SnakeWorld currentWorld;
     private int lastRotation = 0;
     private GreenfootSound munch = new GreenfootSound("Munch.mp3");
-    
-	/**
+
+    /**
      * Constructor for the snake head object
      */
     public SnakeHead() {
         head = new GreenfootImage("snake/head.png");
-        head.scale(21, 20);
+        head.scale(20, 20);
         setImage(head);
     }
 
@@ -35,16 +35,16 @@ public class SnakeHead extends Actor
     public void act()
     {
         currentWorld = (SnakeWorld) getWorld();
-        
+
         toTeleport();
         moveTongue();
         collidingFood();
-        
+
         if (isTouching(EnemyHead.class)) {
             removeTouching(EnemyHead.class); 
             currentWorld.increaseScore(5);
         }
-        
+
         try {
             snakeMove();
         }
@@ -57,11 +57,13 @@ public class SnakeHead extends Actor
      */
     private void isColliding(Class classIn) throws IOException{
         currentWorld = (SnakeWorld) getWorld();
+        
         if ((isTouching(classIn)) || (currentWorld.getScore() < 0) ){
             currentWorld.endWorld();
         }
+        
     }
-    
+
     /**
      * Adding more tails to the snake when colliding with food
      */
@@ -111,7 +113,7 @@ public class SnakeHead extends Actor
 
             // Setting the new image of the snake head
             head = new GreenfootImage(directory);
-            head.scale(21, 20);
+            head.scale(20, 20);
             setImage(head);
         }
     }
@@ -155,9 +157,11 @@ public class SnakeHead extends Actor
             lastRotation = getRotation();
 
         }
+        
         isColliding(SnakeTail.class);
         isColliding(Pylon.class);
         isColliding(Wall.class);
+        
         if(Greenfoot.isKeyDown("right") && this.getRotation() != 0 && this.getRotation() != 180) {
             setRotation(0);
         } else if(Greenfoot.isKeyDown("down") && this.getRotation() != 90 && this.getRotation() != 270) {
@@ -168,6 +172,7 @@ public class SnakeHead extends Actor
             setRotation(270);
         }
     }
+
     private void munchSound(){
         munch.play();
         munch.setVolume(15);
