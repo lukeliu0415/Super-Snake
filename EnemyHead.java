@@ -9,10 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class EnemyHead extends SnakeHead
 {
     private GreenfootImage eHead;
-    SnakeWorld currentWorld = (SnakeWorld) getWorld();
-
-    int eX;
-    int eY;
+    SnakeWorld currentWorld;
     
     public EnemyHead() {
         eHead = new GreenfootImage("enemy-head_s01.png");
@@ -26,15 +23,19 @@ public class EnemyHead extends SnakeHead
      */
     public void act() 
     {
-        // Add your action code here.
-       this.setRotation(0);
-       
-       if(((SnakeWorld) getWorld()).getGameFrames() % 20 == 0) {
-           this.move(1);
-       }
-
-       if (this.isTouching(null)) {
-           removeTouching(EnemyHead.class);
-       }
+        currentWorld = (SnakeWorld) getWorld();
+        
+        if (isTouching(SnakeHead.class)) {
+            currentWorld.increaseScore(5);
+            currentWorld.removeObject(this);
+        } else if (isTouching(SnakeTail.class)) {
+            currentWorld.decreaseScore(5);
+            currentWorld.removeObject(this);
+        }
+        
+        if(currentWorld.getGameFrames() % 20 == 0) {
+            move(1);
+        }
+        
     }    
 }

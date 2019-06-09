@@ -258,11 +258,7 @@ public class SnakeTail extends Actor
         // Getting the current world object
         currentWorld = (SnakeWorld) getWorld();
         
-        // Decreasing player score by 5
-        if (this.isTouching(EnemyHead.class)) {
-            currentWorld.decreaseScore(5); 
-            removeTouching(EnemyHead.class);
-        } 
+        
         
         // Incrementing the number of elapsed frames each execution
         framesElapsed++;   

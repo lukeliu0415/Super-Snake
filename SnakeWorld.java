@@ -100,8 +100,6 @@ public class SnakeWorld extends World
         return gameTime;
     }
 
-    
-    
     public void changeMusic(String musicSet){
         music.stop();
         GreenfootSound music = new GreenfootSound(musicSet);
@@ -130,48 +128,35 @@ public class SnakeWorld extends World
     }
     
     public boolean addEnemy() {
-        int rand = genCoordinates()[0];
+        int rand = (int) (Math.random() * 4);
         int eY = genCoordinates()[1];
         int eX = genCoordinates()[0];
-        EnemyHead eHead = new EnemyHead(); 
-        if (rand < 5) {
+        EnemyHead eHead = new EnemyHead();
+        
+        if (rand == 0) {
             if (getObjectsAt(1, eY, null).isEmpty()) {
-                eHead.setRotation(0);
                 addObject(eHead, 1, eY);
+                eHead.setRotation(0);
                 return true;
             }
-        }
-        else if (rand < 15) {
-            if (getObjectsAt(1, eY, null).isEmpty()) {
+        } else if (rand == 1) {
+            if (getObjectsAt(28, eY, null).isEmpty()) {
+                addObject(eHead, 28, eY);
                 eHead.setRotation(180);
-                addObject(eHead, 30, eY);
                 return true;
             }
-        }
-        else if (rand < 20) {
-            if (getObjectsAt(eX, 1, null).isEmpty()) {
+        } else if (rand == 2) {
+            if (getObjectsAt(eX, 28, null).isEmpty()) {
+                addObject(eHead, eX, 28);
                 eHead.setRotation(270);
-                addObject(eHead, eX, 30);
                 return true;
             }
-        }
-         else if (rand < 30) {
+        } else if (rand == 3) {
             if (getObjectsAt(eX, 1, null).isEmpty()) {
-                eHead.setRotation(90);
                 addObject(eHead, eX, 1);
+                eHead.setRotation(90);
                 return true;
             }
-        }
-        else {
-            if (getObjectsAt(1, eY, null).isEmpty()) {
-                eHead.setRotation(0);
-                addObject(eHead, 1, eY);
-                return true;
-            }
-        }
-        if (getObjectsAt(1, eY, null).isEmpty()) {
-            addObject(eHead, 1, eY);
-            return true;
         }
         return false;
     }
@@ -230,17 +215,9 @@ public class SnakeWorld extends World
         setBackground(gameOverImage);
         inputScore(score);
             
-        removeObjects(getObjects(Wall.class));
-        removeObjects(getObjects(SnakeTail.class));
-        removeObjects(getObjects(Food.class));
-        removeObjects(getObjects(Cherry.class));
-        removeObjects(getObjects(Pylon.class));
-        removeObjects(getObjects(LevelLabel.class));
-        removeObjects(getObjects(Timer.class));
-        removeObjects(getObjects(ScoreLabel.class));
-        removeObjects(getObjects(SnakeHead.class));
+        removeObjects(getObjects(null));
 
-        Label text = new Label(pName + "'s score is: " + score + "   High Score: " + getHighScore(), 30);
+        Label text = new Label(pName + "'s Score: " + score + "   High Score: " + getHighScore(), 30);
         addObject(text, 15, 8);
         addObject(playAgain, 24, 13);
         running = false;
@@ -301,7 +278,7 @@ public class SnakeWorld extends World
         
         if (mouse != null && mouse.getClickCount() == 1) {
             if (mouse.getActor() == start) {
-                pName = JOptionPane.showInputDialog("Enter your name");
+                pName = Greenfoot.ask("Enter your name:");
                 removeObject(start);
                 removeObject(instructions);
                 startWorld();

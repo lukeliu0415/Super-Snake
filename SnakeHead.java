@@ -58,7 +58,7 @@ public class SnakeHead extends Actor
     private void isColliding(Class classIn) throws IOException{
         currentWorld = (SnakeWorld) getWorld();
         
-        if ((isTouching(classIn)) || (currentWorld.getScore() < 0) ){
+        if ((isTouching(classIn)) || currentWorld.getScore() < 0){
             currentWorld.endWorld();
         }
         
@@ -138,7 +138,6 @@ public class SnakeHead extends Actor
             // DOWN
         } else if(this.getY() == getWorld().getHeight()) {
             this.setLocation(this.getX(), 0);
-
         }
     }
 
@@ -155,7 +154,6 @@ public class SnakeHead extends Actor
             move(1);
             framesElapsed = 0;
             lastRotation = getRotation();
-
         }
         
         isColliding(SnakeTail.class);
