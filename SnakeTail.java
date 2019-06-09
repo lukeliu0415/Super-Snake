@@ -279,7 +279,7 @@ public class SnakeTail extends Actor
             // Removing the tail from the list
             if(tailList.size() > 0) {
                 for(int i=0;i<tailList.size();i++) {
-                    if(currentWorld.getObjects(SnakeTail.class).get(i).equals(this)) {
+                    if(tailList.get(i).equals(this)) {
                         currentWorld.removeObject(this);
 
                     }
