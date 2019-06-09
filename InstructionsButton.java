@@ -13,7 +13,7 @@ public class InstructionsButton extends Button
      * Method for instruction button
      */
     public InstructionsButton(){
-        instructionsButton.scale(200,75);
+        instructionsButton.scale(250,90); 
         setImage(instructionsButton);
     }
     

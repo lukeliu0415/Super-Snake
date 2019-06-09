@@ -23,8 +23,8 @@ public class SnakeWorld extends World
     StartButton start;
     InstructionsButton instructions;
     BackButton back;
-    PlayAgainButton playAgain;
     LeaderBoardButton leaderBoard;
+    PlayAgainButton playAgain;
     
     /**
      * Constructor for objects of class SnakeWorld.
@@ -50,9 +50,9 @@ public class SnakeWorld extends World
     public void startScreen() {
         title.scale(getWidth()*20, getHeight()*20);
         setBackground(title); //sets the background of the screen
-        addObject(start, 15, 12);
-        addObject(instructions, 15, 17);
-        addObject(leaderBoard, 25, 17); //Add buttons onto the screen
+        addObject(start, 14, 10);
+        addObject(instructions, 21, 15);
+        addObject(leaderBoard, 7, 15); //Add buttons onto the screen
     }
     
     /**

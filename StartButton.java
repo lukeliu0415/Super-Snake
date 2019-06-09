@@ -15,7 +15,7 @@ public class StartButton extends Button
      * Method for start button
      */
     public StartButton(){
-        title.scale(250,90);
+        title.scale(300,105);
         setImage(title);
     }
     /**
