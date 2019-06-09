@@ -20,7 +20,6 @@ public class SnakeTail extends Actor
 
     // Determining when the snake's turning body part's image can be changed
     private boolean canBeSwitched;
-
     // Storing a reference to the world
     SnakeWorld currentWorld;
 
@@ -38,7 +37,6 @@ public class SnakeTail extends Actor
      */
     public SnakeTail() {
         GreenfootImage tail = new GreenfootImage("snake/body.png");
-        tail.scale(20, 20);
         setImage(tail);
     }
 
@@ -66,7 +64,6 @@ public class SnakeTail extends Actor
 
                 // Changing its image to a tail
                 GreenfootImage tail = new GreenfootImage("snake/tail.png");
-                tail.scale(20, 20);
                 lastTail.setImage(tail);
 
                 // Determining the tail's direction and flipping it accordingly
@@ -129,36 +126,49 @@ public class SnakeTail extends Actor
         currentWorld.removeObjects(currentWorld.getObjects(SnakeTail.class));
     }
 
-    /**
+   /**
      * Sorting the snake's tails based on the number of frames they have
      * been alive
+     * 
+     * @toSort Sorting the list containing all the snake tail instances based
+     * on their on their elapsed number of frames
      */
-    private void addInOrder() {
+    private void addToList(boolean toSort) {
+        // Clearing the tailList to prevent slow performance
+        tailList.clear();
+        
         // Adding all the SnakeTail instances to a list
         tailList.addAll(getWorld().getObjects(SnakeTail.class));
 
-        // Sorting tail based on the number of frames they have 'lived'
-        for (int i = 1; i < tailList.size(); i++) {
-            for (int j = i; j > 0 && tailList.get(j - 1).getTailFrames() >
-            tailList.get(j).getTailFrames(); j--) {
-                Collections.swap(tailList, j, j - 1);
+        if(toSort) {
+            // Sorting tail based on the number of frames they have lived for
+            for (int i = 1; i < tailList.size(); i++) {
+                for (int j = i; j > 0 && tailList.get(j - 1).getTailFrames() >
+                tailList.get(j).getTailFrames(); j--) {
+                    Collections.swap(tailList, j, j - 1);
+                }
             }
         }
     }
 
     /**
      * Determining whether the snake is turning
+     * 
      * @return true if the snake is turning, false if not.
      */
     private boolean isSnakeTurning() {
-        // Retrieving a sorted list containing all the snake's tails based on the
-        // amount of frames they have been alive for
-        addInOrder();
+        // Clearing the tailList to prevent slow performance
+        tailList.clear();
+        
+        // Retrieving a not sorted list containing all the snake's tails
+        addToList(false);
+
+        // Creating an object to store the snake's head
+        SnakeHead tempHead = getWorld().getObjects(SnakeHead.class).get(0);
 
         // Finding whether the rotation of the head of the snake and its
         // tails differ
         for(int i = 0; i<tailList.size();i++) {
-            SnakeHead tempHead = getWorld().getObjects(SnakeHead.class).get(0);
 
             if(tempHead.getRotation() != tailList.get(i).getRotation()) {
                 return true;
@@ -178,8 +188,6 @@ public class SnakeTail extends Actor
         // Initializing an image to hold the snake's turning body part image
         GreenfootImage tempImg = twistedPart.getImage();
 
-        //System.out.println(tempHead.getRotation() - twistedPart.getRotation());
-
         // Calculating the difference in rotation between the snake's head and its
         // turning body part
         int rotationDiff = tempHead.getRotation() - twistedPart.getRotation();
@@ -192,7 +200,6 @@ public class SnakeTail extends Actor
         }
 
         // Updating the image
-        tempImg.scale(20, 20);
         twistedPart.setImage(tempImg);
     }
 
@@ -203,49 +210,46 @@ public class SnakeTail extends Actor
     private void twistBody() {
         // Retrieving a sorted list containing all the snake's tails based on the
         // amount of frames they have been alive for
-        addInOrder();
-
-        // Getting the snake's head object
+        addToList(true);
+        
+        // Creating an object to store the snake's head
         SnakeHead tempHead = getWorld().getObjects(SnakeHead.class).get(0);
+        
+        // Storing the first snake body part (the one right after the snake's head)
+        SnakeTail tempTail = tailList.get(0);
 
-        // Looping through all the snake tails
-        for(int i = 0; i<tailList.size(); i++) {
-            // Finding whether the first snake's body part doesn't have the same
-            // rotation as the head
-            
-            // Stopping at the first instance
-            if(i == 0) {
-                // Checking whether its rotation is the same as the tail
-                if(tempHead.getRotation() != tailList.get(i).getRotation()) {
-                    // Storing the first instance in a variable
-                    SnakeTail tempTail = tailList.get(i);
+        // Checking whether the snake's head rotation is the same as its tail
+        if(tempHead.getRotation() != tempTail.getRotation()) {
 
-                    // Checking whether the head and the turning body part are not aligned over the Y axis and are
-                    // going either left or right
-                    if(tempHead.getRotation() == 0 || tempHead.getRotation() == 180) {
-                        if(tempHead.getX() != tempTail.getX()) {
-                            // The turning object's image can be changed 
-                            canBeSwitched = true;
-                        }
+            // Limiting execution to every 12 seconds
+            if((((SnakeWorld)getWorld()).getGameFrames() % 5) == 0) {
 
-                        // Checking whether the head and the turning body part are not aligned over the X axis and are
-                        // going either up or down
-                    } else {
-                        if(tempHead.getY() != tempTail.getY()) {
-                            // The turning object's image can be changed 
-                            canBeSwitched = true;
-                        } 
+                // Checking whether the head and the turning body part are not aligned over the
+                // Y axis and are going either left or right
+                if(tempHead.getRotation() == 0 || tempHead.getRotation() == 180) {
+                    if(tempHead.getX() != tempTail.getX()) {
+                        // The snake's turning body part's image can be changed 
+                        canBeSwitched = true;
                     }
 
-                    // If the snake's body part and its head are not aligned vertically or horizonally
-                    // changing the connecting body part image to the turning image
-                    if(canBeSwitched) {
-                        // Changing the turning object's image
-                        twistImage(tempTail, tempHead); 
-                        canBeSwitched = false;
-                    }
+                    // Checking whether the head and the turning body part are not aligned over the
+                    // X axis and are going either up or down 
+                } else {
+                    if(tempHead.getY() != tempTail.getY()) {
+                        // The snake's turning body part's image can be changed 
+                        canBeSwitched = true;
+                    } 
                 }
-            } 
+
+                // If the snake's body part and its head are not aligned vertically or horizonally
+                // changing the connecting body part image to a turning body part image
+                // to reflect that turn the snake it taking
+                if(canBeSwitched) {
+                    // Changing the turning object's image
+                    twistImage(tempTail, tempHead); 
+                    canBeSwitched = false;
+                }
+            }
         }
     }
 
@@ -258,8 +262,6 @@ public class SnakeTail extends Actor
         // Getting the current world object
         currentWorld = (SnakeWorld) getWorld();
         
-        
-        
         // Incrementing the number of elapsed frames each execution
         framesElapsed++;   
 
@@ -269,20 +271,18 @@ public class SnakeTail extends Actor
         // Changing the picture of the turning snake's body part
         if(isSnakeTurning()) twistBody();
 
+		// Removing the snake's body part when it reaches its maximum life duration
         if(framesElapsed == lifeCycle) {
             getWorld().removeObject(this);
 
-            // Removing the tail from the list
+            // Also removing it from the tail list
             if(tailList.size() > 0) {
-                for(int i=0;i<tailList.size();i++) {
+                for(int i=0; i < tailList.size(); i++) {
                     if(tailList.get(i).equals(this)) {
                         currentWorld.removeObject(this);
-
                     }
                 }
-
             }
         }
-
-    }    
+    }      
 }

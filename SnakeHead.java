@@ -99,7 +99,7 @@ public class SnakeHead extends Actor
         if(((SnakeWorld) getWorld()).getGameFrames() % 30 == 0) {
             headState++;
 
-            // Resating the counter every 3 iterations through the pictures
+            // Restarting the counter every 3 iterations through the pictures
             if(headState > 2) headState = 0;
 
             switch(headState) {
@@ -118,7 +118,6 @@ public class SnakeHead extends Actor
 
             // Setting the new image of the snake head
             head = new GreenfootImage(directory);
-            head.scale(20, 20);
             setImage(head);
         }
     }
