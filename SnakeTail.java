@@ -53,7 +53,8 @@ public class SnakeTail extends Actor
         // Sorting the list (ascending order)
         Collections.sort(tailFrames);
 
-        addInOrder();
+        // Retrieving a not sorted list containing all the snake's tails
+        addToList(false);
 
         // Looping through all the SnakeTail instances in the world
         for(int i=0; i<tailList.size(); i++) {

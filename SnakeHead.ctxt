@@ -24,5 +24,5 @@ comment7.target=void\ snakeMove()
 comment7.text=\r\n\ Every\ 10\ executions\ of\ the\ act()\ method,\ move\ once\r\n
 comment8.params=
 comment8.target=void\ munchSound()
-comment8.text=\r\n\ Setter\ method\ that\ increases\ the\ score\r\n\r\n
+comment8.text=\r\n\ method\ to\ play\ the\ sound\r\n
 numComments=9
