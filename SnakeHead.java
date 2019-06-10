@@ -38,17 +38,10 @@ public class SnakeHead extends Actor
         currentWorld = (SnakeWorld) getWorld();
 
         // run methods for the snake animation
-        toTeleport();
-        moveTongue();
-        collidingFood();
         snakeMove();
-        
-        // set the snake to be able to eat enemy snakes
-        if (isTouching(EnemyHead.class)) {
-            removeTouching(EnemyHead.class); 
-            currentWorld.increaseScore(5);
-            munchSound();
-        }
+        moveTongue();
+        toTeleport();
+        collidingFood();
         
         try {
             isColliding();
@@ -88,6 +81,11 @@ public class SnakeHead extends Actor
             currentWorld.increaseScore(2);
             munchSound();
             while (!currentWorld.addFood());
+        } else if (isTouching(EnemyHead.class)) {
+            removeTouching(EnemyHead.class);
+            SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 50);
+            currentWorld.increaseScore(5);
+            munchSound();
         }
     }
 

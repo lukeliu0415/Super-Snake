@@ -578,7 +578,7 @@ public class SnakeWorld extends World
             }
 
             //An enemy snake pops up every 30 seconds
-            if (gameTime % 1800 == 0) {
+            if (gameTime % 300 == 0) {
                 while (!addEnemy());
                 //Repeat until successfully placed
             }

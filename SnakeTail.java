@@ -272,8 +272,8 @@ public class SnakeTail extends Actor
         // Changing the picture of the turning snake's body part
         if(isSnakeTurning()) twistBody();
 
-		// Removing the snake's body part when it reaches its maximum life duration
-        if(framesElapsed == lifeCycle) {
+	// Removing the snake's body part when it reaches its maximum life duration
+        if(framesElapsed >= lifeCycle) {
             getWorld().removeObject(this);
 
             // Also removing it from the tail list

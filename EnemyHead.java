@@ -37,10 +37,12 @@ public class EnemyHead extends SnakeHead
         
         // remove itself when collided with snake
         if (isTouching(SnakeHead.class)) {
+            SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() + 50);
             currentWorld.increaseScore(5);
-            currentWorld.removeObject(this);
             munchSound();
+            currentWorld.removeObject(this);
         } else if (isTouching(SnakeTail.class)) {
+            SnakeTail.setLifeDuration(SnakeTail.getLifeDuration() - 50);
             currentWorld.decreaseScore(5);
             currentWorld.removeObject(this);
         }
