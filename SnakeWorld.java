@@ -25,7 +25,7 @@ public class SnakeWorld extends World
     BackButton back;
     LeaderBoardButton leaderBoard;
     PlayAgainButton playAgain;
-    
+
     /**
      * Constructor for objects of class SnakeWorld.
      */
@@ -39,11 +39,11 @@ public class SnakeWorld extends World
         back = new BackButton();
         playAgain = new PlayAgainButton();
         leaderBoard = new LeaderBoardButton();
-        
+
         //Show intro screen
         startScreen();
     }
-    
+
     /**
      * Method for constructing the intro screen.
      */
@@ -54,7 +54,7 @@ public class SnakeWorld extends World
         addObject(instructions, 21, 15);
         addObject(leaderBoard, 7, 15); //Add buttons onto the screen
     }
-    
+
     /**
      * Method for constructing the playing screen (after start button is pressed).
      */
@@ -65,7 +65,7 @@ public class SnakeWorld extends World
         level = 0;
         running = true;
         SnakeTail.setLifeDuration(25);
-        
+
         //Set background image and add objects into the world
         GreenfootImage img = new GreenfootImage("grass.png");
         setBackground(img);
@@ -73,12 +73,12 @@ public class SnakeWorld extends World
         addObject(new ScoreLabel(), 26, 1);
         addObject(new Timer(), 16, 1);
         while(!addFood());
-        
+
         //Play soundtrack
         music.play();
         music.setVolume(15);
     }
-    
+
     /**
      * Method for constructing the game over screen after the game ends.
      */
@@ -89,17 +89,19 @@ public class SnakeWorld extends World
         removeObjects(getObjects(null)); //Remove all objects from the world
         inputScore(score); //Input this play's score into the document
         getScores(); //Get all scores from the document
-        
+
         //Display this play's score, top score and top player
-        Label text = new Label(pName + "'s Score: " + score + "   High Score: "
-        + scoreList.get(0) + " (" + nameList.get(0) + ")", 30);
+        Label text = new Label(pName.substring(0, 1).toUpperCase() + pName.substring(1) +
+                "'s Score: " + score + "   High Score: "
+                + scoreList.get(0) + " (" + nameList.get(0) + ")", 30);
+        text.setTextColor(Color.RED);
         addObject(text, 15, 8);
-        
-        addObject(playAgain, 24, 13); //Add play again button
+
+        addObject(playAgain, 14, 14); //Add play again button
         running = false;
         music.stop(); //Stop the music
     }
-    
+
     /**
      * Method for placing objects on the instructions screen.
      */
@@ -110,30 +112,34 @@ public class SnakeWorld extends World
         instructionsTitle.scale(getWidth()*20, getHeight()*20);
         setBackground(instructionsTitle);
     }
-    
+
     /**
      * Method for placing objects on the leader board screen.
      */
     public void placeLeaderBoardLabel() throws IOException{
+        title.scale(getWidth()*20, getHeight()*20);
+        title = new GreenfootImage("titleLeaderboard.jpg");
+        setBackground(title);
+
         Label title = new Label("Leader Board", 50);
+
         addObject(title, 15, 10); //Add the title
-        
+
         getScores(); //Get scores and corresponding players from the file
-        
         //Display empty message if no plays have occured
         if (nameList.size() == 0) {
             Label line = new Label("Currently empty!", 28);
             addObject(line, 15, 13);
         }
-        
-        //Display top players and their scores
+
+        // Display top players and their scores
         for (int i = 0; i <= 4 || i > nameList.size(); i++) {
-            Label line = new Label("Player #" + (i+1) + ": " + nameList.get(i) + 
-            " (Score: " + scoreList.get(i) + ")", 28);
+            Label line = new Label("Player #" + (i+1) + ": " + nameList.get(i).substring(0, 1).toUpperCase() 
+                    + nameList.get(i).substring(1) + " (Score: " + scoreList.get(i) + ")", 28);
             addObject(line, 15, 13+2*i);
         }
     }
-    
+
     /**
      * Method for displaying the current level during the game.
      */
@@ -142,7 +148,7 @@ public class SnakeWorld extends World
         LevelLabel showLevel = new LevelLabel("Leveled Up! Level: " + level, 30);
         addObject(showLevel, 8, 4);
     }
-    
+
     /**
      * Getter method for the game frames
      * 
@@ -161,7 +167,7 @@ public class SnakeWorld extends World
     public int getScore() {
         return score;
     }
-    
+
     /**
      * Setter method that increases the score
      * 
@@ -170,7 +176,7 @@ public class SnakeWorld extends World
     public void increaseScore(int num) {
         score += num;
     }
-    
+
     /**
      * Setter method that decreases the score
      * 
@@ -179,7 +185,7 @@ public class SnakeWorld extends World
     public void decreaseScore(int num) {
         score -= num;
     }
-    
+
     /**
      * Method for placing the enemy snake
      * 
@@ -187,13 +193,13 @@ public class SnakeWorld extends World
      */
     public boolean addEnemy() {
         int rand = (int) (Math.random() * 4); //This value determines which direction the snake moves
-        
+
         //Get random x and y coordinates to place the snake
         int eY = genCoordinates()[1];
         int eX = genCoordinates()[0];
-        
+
         EnemyHead eHead = new EnemyHead(); //Construct an enemy head
-        
+
         //Place the enemy snake in location and set direction according to the random value
         //Only place it when the desired location does not contain any other objects
         if (rand == 0) {
@@ -223,7 +229,7 @@ public class SnakeWorld extends World
         }
         return false;
     }
-    
+
     /**
      * Method for placing the pylon
      * 
@@ -240,7 +246,7 @@ public class SnakeWorld extends World
             //Add the pylon into the game
             Pylon tempPylon  = new Pylon();
             addObject(tempPylon, randX, randY);
-            
+
             return true;
         }
         return false;
@@ -258,7 +264,7 @@ public class SnakeWorld extends World
 
         //Place the food if the desired location does not contain any other objects
         if (getObjectsAt(randX, randY, Actor.class).isEmpty()) {
-            
+
             //20% probability the cherry will be placed, 80% probability the apple will be placed
             int randNum = (int) (Math.random()*5);
 
@@ -273,7 +279,7 @@ public class SnakeWorld extends World
         }
         return false;
     }
-    
+
     /**
      * Method for generating coordinates
      * 
@@ -285,7 +291,7 @@ public class SnakeWorld extends World
         coordinates[1] = Greenfoot.getRandomNumber(getHeight());
         return coordinates;
     }
-    
+
     /**
      * Method that controls what happens after run is clicked
      */
@@ -296,7 +302,7 @@ public class SnakeWorld extends World
             music.setVolume(15);
         }
     }
-    
+
     /**
      * Method that controls what happens after pause is clicked
      */
@@ -304,29 +310,29 @@ public class SnakeWorld extends World
         //Pause the music
         music.pause();
     }
-    
+
     /**
      * Method for getting all past scores from the document
      */
     public void getScores() throws IOException{
         //Create a new scanner that scans the file
         Scanner k = new Scanner (new File("HighScores.txt"));
-        
+
         scoreList.clear();
         nameList.clear();
-        
+
         //Scan each line from the file
         while (k.hasNextLine()) {
             //Split each line into the score and the name
             String temp[] = k.nextLine().split(" ");
             int sc = Integer.parseInt(temp[0]);
             String name = temp[1];
-            
+
             //Add the score and the name onto their respective list
             scoreList.add(sc);
             nameList.add(name);
         }
-        
+
         //Use bubble sort to sort through all the scores with their respective player names
         for (int i = 1; i < scoreList.size(); i++) {
             for (int j = i; j > 0 && scoreList.get(j - 1) <= scoreList.get(j); j--) {
@@ -334,10 +340,10 @@ public class SnakeWorld extends World
                 Collections.swap(nameList, j, j - 1);
             }
         }
-        
+
         k.close(); //Close the file
     }
-    
+
     /**
      * Method for inputting the score after a game ends
      */
@@ -345,10 +351,10 @@ public class SnakeWorld extends World
         //Append a line (score and the name) into the file
         PrintWriter o = new PrintWriter(new FileWriter("HighScores.txt", true));
         o.println(score + " " + pName);
-        
+
         o.close(); //Close the file
     }
-    
+
     /**
      * Act - do whatever the SnakeWorld wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -360,18 +366,18 @@ public class SnakeWorld extends World
             if (mouse.getActor() == start) {
                 //If the start button is clicked, prompt the user to enter the name
                 pName = Greenfoot.ask("Enter your name: (max 6 characters)");
-                
+
                 //Make sure the name is no longer than 6 characters
                 while (pName.length() > 6) {
                     pName = Greenfoot.ask("Max 6 characters!");
                 }
-                
+
                 removeObjects(getObjects(Button.class)); //Remove buttons
                 startWorld(); //Initialize the world
             } else if (mouse.getActor() == instructions) {
                 //If the instructions button is clicked
                 placeInstructionsLabel(); //Place the instructions
-                
+
                 removeObjects(getObjects(Button.class)); //Remove buttons
                 addObject(back, 5, 27); //Add the back button
             } else if (mouse.getActor() == leaderBoard) {
@@ -380,11 +386,14 @@ public class SnakeWorld extends World
                     placeLeaderBoardLabel(); //Place the leaderboard labels
                 } catch(Exception E) {
                 }
-                
+
                 removeObjects(getObjects(Button.class)); //Remove buttons
                 addObject(back, 5, 27); //Add the back button
             } else if (mouse.getActor() == back) {
-                //If the back button is clicked, remove all objects
+                //If the back button is clicked, set previous background and remove all objects
+                title.scale(getWidth()*20, getHeight()*20);
+                title = new GreenfootImage("snakeGameTitle.jpg");
+                setBackground(title);
                 removeObject(back);
                 removeObjects(getObjects(Label.class));
                 removeObjects(getObjects(Instructions.class));
@@ -396,7 +405,7 @@ public class SnakeWorld extends World
                 startScreen(); //Initialize the start screen
             }
         }
-        
+
         /* The following code initializes different levels. Every time the player
          * gains 10 points in the score, he/she moves onto the next level.
          * Each level contains walls that are set up differently.
@@ -407,155 +416,155 @@ public class SnakeWorld extends World
          */
         switch (level) {
             case 0: if (score >= 10) {
-                        level = 1;
-                    } //Move onto the next level when the score reaches 10
-                    break;
-                    
+                level = 1;
+            } //Move onto the next level when the score reaches 10
+            break;
+
             case 1: //remove all obstacles and food
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    //Add walls
-                    for (int i = 0; i <= 30; i=i+5) {
-                        addObject(new Wall(), i, 15);
-                    }
-                    displayLevel(); //Display the current level
-                    level = 11; //Move on to the tracking phase
-                    while (!addFood()); //Add the food into the game
-                    
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            //Add walls
+            for (int i = 0; i <= 30; i=i+5) {
+                addObject(new Wall(), i, 15);
+            }
+            displayLevel(); //Display the current level
+            level = 11; //Move on to the tracking phase
+            while (!addFood()); //Add the food into the game
+
             case 11:if (score >= 20) {
-                        level = 2;
-                    }
-                    break;
-                    
+                level = 2;
+            }
+            break;
+
             case 2: removeObjects(getObjects(Wall.class));
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    for (int i = 0; i <= 30; i=i+5) {
-                        addObject(new Wall(), i, 0);
-                        addObject(new Wall(), i, 10);
-                        addObject(new Wall(), i, 20);
-                        addObject(new Wall(), i, 30);
-                    }
-                    displayLevel();
-                    level = 12;
-                    while (!addFood());
-                    
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            for (int i = 0; i <= 30; i=i+5) {
+                addObject(new Wall(), i, 0);
+                addObject(new Wall(), i, 10);
+                addObject(new Wall(), i, 20);
+                addObject(new Wall(), i, 30);
+            }
+            displayLevel();
+            level = 12;
+            while (!addFood());
+
             case 12:if (score >= 30) {
-                        level = 3;
-                    }
-                    break;        
-                    
+                level = 3;
+            }
+            break;        
+
             case 3: removeObjects(getObjects(Wall.class));
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    for (int i = 0; i <= 30; i=i+5) {
-                        addObject(new Wall(), i, i);
-                    }
-                    displayLevel();
-                    level = 13;
-                    while (!addFood());
-                    
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            for (int i = 0; i <= 30; i=i+5) {
+                addObject(new Wall(), i, i);
+            }
+            displayLevel();
+            level = 13;
+            while (!addFood());
+
             case 13:if (score >= 40) {
-                        level = 4;
-                    }
-                    break; 
-                    
+                level = 4;
+            }
+            break; 
+
             case 4: removeObjects(getObjects(Wall.class));
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    for (int i = 0; i <= 30; i=i+5) {
-                        addObject(new Wall(), i, i);
-                        addObject(new Wall(), i, 30-i);
-                    }
-                    displayLevel();
-                    level = 14;
-                    while (!addFood());
-            
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            for (int i = 0; i <= 30; i=i+5) {
+                addObject(new Wall(), i, i);
+                addObject(new Wall(), i, 30-i);
+            }
+            displayLevel();
+            level = 14;
+            while (!addFood());
+
             case 14:if (score >= 50) {
-                        level = 5;
-                    }
-                    break;         
-                    
+                level = 5;
+            }
+            break;         
+
             case 5: removeObjects(getObjects(Wall.class));
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    for (int j = 0; j <= 30; j=j+10) {
-                        for (int i = 0; i <= 30; i=i+5) {
-                            addObject(new Wall(), i, j);
-                            addObject(new Wall(), i, 30-i);
-                            addObject(new Wall(), i, i);
-                            addObject(new Wall(), j, i);
-                        }
-                    }
-                    displayLevel();
-                    level = 15;
-                    while (!addFood());
-            
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            for (int j = 0; j <= 30; j=j+10) {
+                for (int i = 0; i <= 30; i=i+5) {
+                    addObject(new Wall(), i, j);
+                    addObject(new Wall(), i, 30-i);
+                    addObject(new Wall(), i, i);
+                    addObject(new Wall(), j, i);
+                }
+            }
+            displayLevel();
+            level = 15;
+            while (!addFood());
+
             case 15:if (score >= 60) {
-                        level = 6;
-                    }
-                    break;
-                    
+                level = 6;
+            }
+            break;
+
             case 6: removeObjects(getObjects(Wall.class));
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    for (int i = 0; i <= 30; i=i+5) {
-                        addObject(new Wall(), i, 15);
-                        addObject(new Wall(), 15, i);
-                        addObject(new Wall(), i, 30-i);
-                        addObject(new Wall(), i, i);
-                    }
-                    displayLevel();
-                    level = 16;
-                    while (!addFood());
-            
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            for (int i = 0; i <= 30; i=i+5) {
+                addObject(new Wall(), i, 15);
+                addObject(new Wall(), 15, i);
+                addObject(new Wall(), i, 30-i);
+                addObject(new Wall(), i, i);
+            }
+            displayLevel();
+            level = 16;
+            while (!addFood());
+
             case 16:if (score >= 70) {
-                        level = 7;
-                    }
-                    break;        
-                    
+                level = 7;
+            }
+            break;        
+
             case 7: removeObjects(getObjects(Wall.class));
-                    removeObjects(getObjects(Pylon.class));
-                    removeObjects(getObjects(Food.class));
-                    removeObjects(getObjects(Cherry.class));
-                    
-                    for (int j = 0; j <= 30; j=j+5) {
-                        for (int i = 0; i <= 30; i++) {
-                            addObject(new Wall(), i, j);
-                            if ((i == 5) || (i == 10) || (i == 15) || (i == 20) || (i == 25) || (i == 30)) {
-                                removeObjects(getObjectsAt(i, j, Wall.class));
-                            }
-                        }
+            removeObjects(getObjects(Pylon.class));
+            removeObjects(getObjects(Food.class));
+            removeObjects(getObjects(Cherry.class));
+
+            for (int j = 0; j <= 30; j=j+5) {
+                for (int i = 0; i <= 30; i++) {
+                    addObject(new Wall(), i, j);
+                    if ((i == 5) || (i == 10) || (i == 15) || (i == 20) || (i == 25) || (i == 30)) {
+                        removeObjects(getObjectsAt(i, j, Wall.class));
                     }
-                    displayLevel();
-                    level = 17;
-                    while (!addFood());
-            
+                }
+            }
+            displayLevel();
+            level = 17;
+            while (!addFood());
+
             case 17: //
         }
-        
+
         //If the game is running
         if (running) {
             gameTime++;
-            
+
             //A pylon pops up every 10 seconds
             if (gameTime % 600 == 0) {
                 while (!addPylon());
                 //Repeat until successfully placed
             }
-            
+
             //An enemy snake pops up every 30 seconds
             if (gameTime % 1800 == 0) {
                 while (!addEnemy());

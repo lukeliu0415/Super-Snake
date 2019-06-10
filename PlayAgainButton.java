@@ -14,7 +14,7 @@ public class PlayAgainButton extends Button
      * Method for play again button 
      */
     public PlayAgainButton(){
-        playAgainButton.scale(200,75);
+        playAgainButton.scale(300,105);
         setImage(playAgainButton);
     }
     
