@@ -14,12 +14,12 @@ public class EnemyHead extends SnakeHead
     SnakeWorld currentWorld;
 
     /**
-     * Constructor for EnemyHead
+     * Constructor for objects of class EnemyHead.
      */
     public EnemyHead() {
         eHead = new GreenfootImage("enemy-head_s01.png");
         eHead.scale(20, 20);
-        setImage(eHead);
+        setImage(eHead); //Set the image of the enemy head
     }
 
     /**

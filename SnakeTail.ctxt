@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=SnakeTail
-comment0.text=\n\ Write\ a\ description\ of\ class\ SnakeTail\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ This\ class\ is\ in\ charge\ of\ adding\ the\ snake's\ tails\ to\ the\ world\ and\n\ ensuring\ it\ meets\ the\ behaviour\ of\ the\ snake.\n\ \n\ @author\ Maor\ Gornik,\ Luke\ Liu,\ Qirong\ Su,\ Rahim\ Somjee\ \n\ @version\ June\ 9,\ 2019\n
 comment1.params=
 comment1.target=SnakeTail()
 comment1.text=\n\ A\ constructor\ for\ the\ snake's\ tails\n

@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=EnemyHead
-comment0.text=\n\ Write\ a\ description\ of\ class\ EnemyHead\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ This\ class\ is\ in\ charge\ of\ adding\ enemy\ snakes\ to\ the\ world\ and\ it\ serves\ as\ an\ additional\ \n\ obstacle\ for\ the\ snake\ to\ overcome.\n\ \n\ @author\ Maor\ Gornik,\ Luke\ Liu,\ Qirong\ Su,\ Rahim\ Somjee\ \n\ @version\ June\ 9,\ 2019\n
 comment1.params=
 comment1.target=EnemyHead()
-comment1.text=\n\ Constructor\ for\ enemy\ head\n
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ EnemyHead.\n
 comment2.params=
 comment2.target=void\ act()
 comment2.text=\n\ Act\ -\ How\ the\ enemy\ snake\ behaves\ around\ the\ screen\n\ \n

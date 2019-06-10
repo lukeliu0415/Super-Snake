@@ -332,7 +332,7 @@ public class SnakeWorld extends World
         //Scan each line from the file
         while (k.hasNextLine()) {
             //Split each line into the score and the name
-            String temp[] = k.nextLine().split(" ");
+            String temp[] = k.nextLine().split(" ", 2);
             int sc = Integer.parseInt(temp[0]);
             String name = temp[1];
 

@@ -3,23 +3,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Write a description of class SnakeTail here.
+ * This class is in charge of adding the snake's tails to the world and
+ * ensuring it meets the behaviour of the snake.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class SnakeTail extends Actor
 {
     // Holding the number of frames that elapsed
-    private int framesElapsed = 0; 
-
-    // Each 10 frames represent one more tail (frames)
+    private int framesElapsed = 0;
 
     // Holding the number of frames that the snake's body part is alive for
-    private static int lifeCycle; 
+    private static int lifeCycle;
 
     // Determining when the snake's turning body part's image can be changed
     private boolean canBeSwitched;
+    
     // Storing a reference to the world
     SnakeWorld currentWorld;
 
@@ -37,7 +37,7 @@ public class SnakeTail extends Actor
      */
     public SnakeTail() {
         GreenfootImage tail = new GreenfootImage("snake/body.png");
-        setImage(tail);
+        setImage(tail); //Set the image of the snake tail
     }
 
     /**

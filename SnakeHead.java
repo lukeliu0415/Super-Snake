@@ -2,8 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.*;
 
 /**
- * This class is in charge of adding the snake's head, its tails to the world and
- * ensuring it meets the behaviour of a snake.
+ * This class is in charge of adding the snake's head.
  * 
  * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
  * @version June 9, 2019
@@ -21,7 +20,7 @@ public class SnakeHead extends Actor
     private GreenfootSound munch = new GreenfootSound("Munch.mp3");
 
     /**
-     * Constructor for the snake head object
+     * Constructor for objects of class SnakeHead.
      */
     public SnakeHead() {
         head = new GreenfootImage("snake/head.png");
