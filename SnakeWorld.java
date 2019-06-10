@@ -121,7 +121,7 @@ public class SnakeWorld extends World
         title = new GreenfootImage("titleLeaderboard.jpg");
         setBackground(title);
 
-        Label title = new Label("Leader Board", 50);
+        Label title = new Label("Leaderboard", 50);
 
         addObject(title, 15, 10); //Add the title
 
@@ -365,11 +365,15 @@ public class SnakeWorld extends World
         if (mouse != null && mouse.getClickCount() == 1) {
             if (mouse.getActor() == start) {
                 //If the start button is clicked, prompt the user to enter the name
-                pName = Greenfoot.ask("Enter your name: (max 6 characters)");
+                pName = Greenfoot.ask("Enter your name: (max 6 characters)").trim();
 
                 //Make sure the name is no longer than 6 characters
-                while (pName.length() > 6) {
-                    pName = Greenfoot.ask("Max 6 characters!");
+                while (pName.length() > 6 || pName.equals("")) {
+                    if (pName.length() > 6) {
+                        pName = Greenfoot.ask("Max 6 characters!").trim();
+                    } else if (pName.equals("")) {
+                        pName = Greenfoot.ask("Please enter a valid name!").trim();
+                    }
                 }
 
                 removeObjects(getObjects(Button.class)); //Remove buttons
