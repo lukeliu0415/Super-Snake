@@ -1,28 +1,20 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class InstructionsButton here.
+ * The instructions button in the world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class InstructionsButton extends Button
 {
     private GreenfootImage instructionsButton = new GreenfootImage("InstructionsButton.png");
+    
     /**
-     * Method for instruction button
+     * Constructor for objects of class InstructionsButton
      */
     public InstructionsButton(){
         instructionsButton.scale(250,90); 
-        setImage(instructionsButton);
+        setImage(instructionsButton); //Set the image of the instructions button
     }
-    
-    /**
-     * Act - do whatever the InstructionsButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-        // Add your action code here.
-    }    
 }

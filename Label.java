@@ -1,68 +1,70 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
 /**
- * Write a description of class Label here.
+ * The parent class of all the labels in the world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class Label extends Actor
 {
     private String text;
     private int fontSize;
     private Color textColor;
-    private Color bkColor;
+    private Color bkColor; //background colour
+    
     /**
-     * Act - do whatever the Label wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Constructor for objects of class Label.
+     * 
+     * @param setText text on the label
+     * @param fontSizeSet font size of the text on the label
      */
-    public Label(String setText,int fontSizeSet){//label constructor
-        super();
+    public Label(String setText,int fontSizeSet){
         text = setText;
         fontSize = fontSizeSet;
         textColor = Color.BLACK;
-        bkColor = new Color(0,0,0,0);//transparent background
+        bkColor = new Color(0,0,0,0); //transparent background
         
+        //Set the image of the label according to the specified criteria
         GreenfootImage label = new GreenfootImage(text, fontSize, textColor, bkColor);
-        
         updateImage();
     }
+    
     /**
      * Method to update the image
      */
     public void updateImage(){
         GreenfootImage img = new GreenfootImage(text, fontSize, textColor, bkColor);
-        setImage(img);
-        
+        setImage(img); //Set the label image
     }
+    
     /**
      * Setter method that sets the label text
      * 
-     * @param text to set the label with
+     * @param textSet text on the label
      */
     public void setText(String textSet){
         text = textSet;
         updateImage();
     }
+    
     /**
      * Setter method for the font of the text
      * 
-     * @param size to set the font
+     * @param fontSizeSet size of the font
      */
     public void setFontSize(int fontSizeSet){
         fontSize = fontSizeSet;
         updateImage();
     }
+    
     /**
      * Setter method for the colour of the text
      * 
-     * @param color to set the text
+     * @param colorSet color of the text
      */
     public void setTextColor(Color colorSet){
         textColor = colorSet;
         updateImage();
-    }
-    public void act() 
-    {
-        // Add your action code here.
-    }    
+    } 
 }

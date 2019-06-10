@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=ScoreLabel
-comment0.text=\n\ Write\ a\ description\ of\ class\ ScoreLabel\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ Score\ Label\ in\ the\ world.\n\ \n\ @author\ Maor\ Gornik,\ Luke\ Liu,\ Qirong\ Su,\ Rahim\ Somjee\ \n\ @version\ June\ 9,\ 2019\n
 comment1.params=
 comment1.target=ScoreLabel()
-comment1.text=\n\ Constructor\ for\ score\ label\n
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ ScoreLabel.\n
 comment2.params=
 comment2.target=void\ act()
 comment2.text=\n\ Act\ -\ do\ whatever\ the\ ScoreLabel\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n

@@ -1,17 +1,18 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class ScoreLabel here.
+ * Score Label in the world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class ScoreLabel extends Label
 {
     /**
-     * Constructor for score label
+     * Constructor for objects of class ScoreLabel.
      */
-    public ScoreLabel(){
+    public ScoreLabel() {
+        //Call the parent constructor
         super("Score: 0", 30);
     }
     
@@ -21,7 +22,7 @@ public class ScoreLabel extends Label
      */
     public void act() 
     {
-        // set currentworld 
+        //Get currentworld 
         SnakeWorld currentWorld = (SnakeWorld) getWorld();
         
         //Update and display the current score

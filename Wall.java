@@ -1,28 +1,19 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Wall here.
+ * Wall - an obstacle in the world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class Wall extends Actor
 {
     /**
-     * Constructor for the walls
+     * Constructor for objects of class Wall.
      */
-     public Wall() {
+    public Wall() {
         GreenfootImage wall = getImage();
         wall.scale(20, 20);
-        setImage(wall);
+        setImage(wall); //Set the image of the wall
     }
-    /**
-     * Act - do whatever the Wall wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-        // Add your action code here.
-        
-    }    
 }

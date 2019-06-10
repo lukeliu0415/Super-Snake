@@ -1,22 +1,23 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class LevelLabel here.
+ * Level label in the world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class LevelLabel extends Label
 {
-    private int time = 0;
+    private int time = 0; //Timer to track the amount of time the label has been in the world
     
     /**
-     * Constructor for Level label
+     * Constructor for objects of class LevelLabel.
      * 
-     * @param text to set the label with
-     * @param font size for the text
+     * @param text text on the label
+     * @param fontSizeSet font size
      */
     public LevelLabel(String text, int fontSizeSet){
+        //Call the parent constructor
         super(text,fontSizeSet);
     }
     
@@ -26,7 +27,7 @@ public class LevelLabel extends Label
      */
     public void act() 
     {
-        // time to keep the label alive (about 3 seconds)
+        //The label removes itself after 3 seconds
         time++;
         if (time == 180) {
             getWorld().removeObject(this);

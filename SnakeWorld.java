@@ -2,6 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
+
 /**
  * This class is the world where the Super Snake game occurs.
  * 
@@ -10,21 +11,28 @@ import java.io.*;
  */
 public class SnakeWorld extends World
 {
+    //Declare all game-related variables
     private int gameTime;
     private int score;
     private int level;
     private boolean running;
-    public String pName;
+    private String pName;
+    
+    //Initialize the background and music
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
     private GreenfootImage instructionsTitle = new GreenfootImage("InstructionsBackground.jpg");
+    
+    //Initialize lists used to store the scores and names
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();
     private ArrayList<String> nameList = new ArrayList<String>();
-    StartButton start;
-    InstructionsButton instructions;
-    BackButton back;
-    LeaderBoardButton leaderBoard;
-    PlayAgainButton playAgain;
+    
+    //Declare buttons
+    private StartButton start;
+    private InstructionsButton instructions;
+    private BackButton back;
+    private LeaderBoardButton leaderBoard;
+    private PlayAgainButton playAgain;
 
     /**
      * Constructor for objects of class SnakeWorld.
@@ -171,7 +179,7 @@ public class SnakeWorld extends World
     /**
      * Setter method that increases the score
      * 
-     * @param score that is increased
+     * @param num score that is increased
      */
     public void increaseScore(int num) {
         score += num;
@@ -180,7 +188,7 @@ public class SnakeWorld extends World
     /**
      * Setter method that decreases the score
      * 
-     * @param score that is decreased
+     * @param num score that is decreased
      */
     public void decreaseScore(int num) {
         score -= num;

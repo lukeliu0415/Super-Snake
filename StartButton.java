@@ -1,28 +1,20 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class StartButton here.
+ * The start button in the world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Maor Gornik, Luke Liu, Qirong Su, Rahim Somjee 
+ * @version June 9, 2019
  */
 public class StartButton extends Button
 {
-    private boolean sliding = false;
     private GreenfootImage title = new GreenfootImage("startButton.png");
     
     /**
-     * Method for start button
+     * Constructor for objects of class StartButton
      */
     public StartButton(){
         title.scale(300,105);
-        setImage(title);
-    }
-    /**
-     * Act - do whatever the StartButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-    }    
+        setImage(title); //Set the image of the start button
+    }  
 }
