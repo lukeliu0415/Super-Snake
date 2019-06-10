@@ -21,7 +21,7 @@ public class SnakeWorld extends World
     //Initialize the background and music
     private GreenfootImage title = new GreenfootImage("snakeGameTitle.jpg");
     private GreenfootSound music = new GreenfootSound("jungleGroove.mp3");
-    private GreenfootImage instructionsTitle = new GreenfootImage("InstructionsBackground.jpg");
+    private GreenfootImage instructionsTitle = new GreenfootImage("titleInstructions.jpg");
     
     //Initialize lists used to store the scores and names
     private ArrayList<Integer> scoreList = new ArrayList<Integer>();

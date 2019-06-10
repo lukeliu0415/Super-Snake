@@ -1,10 +1,10 @@
 #BlueJ class context
 comment0.target=Timer
-comment0.text=\n\ Timer\ in\ the\ world.\n\ \n\ @author\ Maor\ Gornik,\ Luke\ Liu,\ Qirong\ Su,\ Rahim\ Somjee\ \n\ @version\ June\ 9,\ 2019\n
+comment0.text=\r\n\ Timer\ in\ the\ world.\r\n\ \r\n\ @author\ Maor\ Gornik,\ Luke\ Liu,\ Qirong\ Su,\ Rahim\ Somjee\ \r\n\ @version\ June\ 9,\ 2019\r\n
 comment1.params=
 comment1.target=Timer()
-comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Timer.\n
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Timer.\r\n
 comment2.params=
 comment2.target=void\ act()
-comment2.text=\n\ Act\ -\ do\ whatever\ the\ Timer\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ Timer\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 numComments=3
